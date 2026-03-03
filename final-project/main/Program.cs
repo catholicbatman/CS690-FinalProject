@@ -1,5 +1,6 @@
 ﻿namespace main;
 
+using Spectre.Console;
 class Program
 {
     static void Main(string[] args)
@@ -7,8 +8,11 @@ class Program
     
         string choice;
         do {
-            Console.WriteLine("What would you like to do?");
-            choice = Console.ReadLine();
+            choice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("What would you like to do?")
+            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise","Control Meal Records","Track Dog Info","Exit")
+            );
             Console.WriteLine(choice);
         } while (choice != "Exit");
     }
