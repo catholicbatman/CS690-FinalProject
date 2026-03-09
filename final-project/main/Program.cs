@@ -35,8 +35,9 @@ class Program
                     //sub submenu selection for appointment options
                     if (medModeChoice == "Appointments")
                     {
+                    string AppointmentChoice;
                     do {
-                        string AppointmentChoice = AnsiConsole.Prompt(
+                        AppointmentChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
                         .AddChoices("View Appointments","Add Appointment","Mark Appointment Complete","Remove Appointment", "Return to medical menu")
@@ -58,7 +59,7 @@ class Program
                             {
                             Console.WriteLine("Appointment Removed");
                             }
-                    }while(Appointmentchoice != "Return to medical menu");        
+                    }while(AppointmentChoice != "Return to medical menu");        
                     }
 
                     //sub submenu selection for medication options
