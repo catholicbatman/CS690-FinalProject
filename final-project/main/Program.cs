@@ -26,10 +26,12 @@ class Program
             //submenu for selecting just medical things
             else if(choice == "Track Medical Information")
             {
-                string medModeChoice = AnsiConsole.Prompt(
+                string medModeChoice;
+            do {    
+                medModeChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Which would you like to manage?")
-                .AddChoices("Appointments","Medications","Vaccinations","Exit")
+                .AddChoices("Appointments","Medications","Vaccinations","Exit to Main Menu")
                 );
 
                     //sub submenu selection for appointment options
@@ -40,7 +42,7 @@ class Program
                         AppointmentChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
-                        .AddChoices("View Appointments","Add Appointment","Mark Appointment Complete","Remove Appointment", "Return to medical menu")
+                        .AddChoices("View Appointments","Add Appointment","Mark Appointment Complete","Remove Appointment", "Return to Medical Menu")
                         );
 
                             if (AppointmentChoice == "View Appointments")
@@ -59,7 +61,7 @@ class Program
                             {
                             Console.WriteLine("Appointment Removed");
                             }
-                    }while(AppointmentChoice != "Return to medical menu");        
+                    }while(AppointmentChoice != "Return to Medical Menu");        
                     }
 
                     //sub submenu selection for medication options
@@ -80,7 +82,7 @@ class Program
                         .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to main menu")
                         );
                     }
-
+            } while (medModeChoice != "Exit to Main Menu");    
 
             }
         } while (choice != "Exit");
