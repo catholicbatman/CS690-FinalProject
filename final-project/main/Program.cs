@@ -1,6 +1,7 @@
 ﻿namespace main;
 
 using System.Reflection.Metadata.Ecma335;
+using System.IO;
 using Spectre.Console;
 class Program
 {
@@ -67,11 +68,38 @@ class Program
                     //sub submenu selection for medication options
                     else if (medModeChoice == "Medications")
                     {
-                        string MedicationChoice = AnsiConsole.Prompt(
+                    string MedicationChoice;
+                    do {
+
+                        MedicationChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
-                        .AddChoices("View Current Medications","Add Medication","Remove Medication","Show Medication Reminders", "Return to main menu")
+                        .AddChoices("View Current Medications","Add Medication","Remove Medication","Show Medication Reminders", "Return to Medical Menu")
                         );
+
+                        if (MedicationChoice == "View Current Medications")
+                            {
+                            Console.WriteLine("Medications viewed");
+                            }
+                            else if (MedicationChoice == "Add Medication")
+                            {
+                            Console.WriteLine("What is the medication name?");
+                            string medicationName = Console.ReadLine();
+                            Console.WriteLine("How many times a day is it administered?");
+                            string medicationAdministrationTimes = Console.ReadLine();
+                            File.AppendAllText("Medication_List.txt", "Medication name:" +medicationName +", Times administered a day: 2" + Environment.NewLine);
+                            Console.WriteLine("Medication Added");
+                            }
+                            else if (MedicationChoice == "Remove Medication")
+                            {
+                            Console.WriteLine("Medication Removed");
+                            }
+                            else if (MedicationChoice == "Show Medication Reminders")
+                            {
+                            Console.WriteLine("Here are the medication reminders:");
+                            }
+
+                    }while(MedicationChoice != "Return to Medical Menu");        
                     }
 
                     else if (medModeChoice == "Vaccinations")
