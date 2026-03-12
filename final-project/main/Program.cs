@@ -79,17 +79,35 @@ class Program
 
                         if (MedicationChoice == "View Current Medications")
                             {
+                            string[] medFileContents = File.ReadAllLines("Medication_List.txt");
+                            //string[] medications = Split(medFileContents,",");
+                            foreach(string medicationInfo in medFileContents)
+                                {
+                                string[] medicationInfoSplit = medicationInfo.Split(',');
+                                int count = 0;
+                                foreach(string medication in medicationInfoSplit)
+                                
+                                    {
+                                        if (count % 2 == 0)
+                                        {
+                                        Console.WriteLine(medication);    
+                                        }
+                                        count += 1;
+                                    }
+                                //Console.WriteLine(medicationInfo);   
+                                }
                             Console.WriteLine("Medications viewed");
                             }
+
                             else if (MedicationChoice == "Add Medication")
                             {
                             Console.WriteLine("What is the medication name?");
                             string medicationName = Console.ReadLine();
                             Console.WriteLine("How many times a day is it administered?");
                             string medicationAdministrationTimes = Console.ReadLine();
-                            File.AppendAllText("Medication_List.txt", "Medication name:" +medicationName +", Times administered a day: 2" + Environment.NewLine);
-                            Console.WriteLine("Medication Added");
+                            File.AppendAllText("Medication_List.txt", medicationName + "," + medicationAdministrationTimes + Environment.NewLine);
                             }
+
                             else if (MedicationChoice == "Remove Medication")
                             {
                             Console.WriteLine("Medication Removed");

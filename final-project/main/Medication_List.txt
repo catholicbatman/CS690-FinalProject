@@ -1,1 +1,3 @@
-Medication name:Medication One, Times administered a day: 2
+Test Med,5
+Test MedTwo,3
+Nexgard,1
