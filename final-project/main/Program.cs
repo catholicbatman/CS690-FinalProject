@@ -10,7 +10,15 @@ class Program
 {
     static void Main(string[] args)
     {
-    
+    MedicationLog medicationLog;
+
+    medicationLog = new MedicationLog();
+
+    medicationLog.Meds.Add("MED ONE",2);
+
+    Console.WriteLine(medicationLog.Meds);
+
+    /*
         string choice;
         do {
 
@@ -74,8 +82,8 @@ class Program
                     string MedicationChoice;
                     List<string> medicationList = new List<string>(); 
                     do {
-                        /*Code below reads the file, adding both the name and dosage times, then separates to get just the medication
-                        It then adds the medication to a list, and prints it to the screen for the user to view. */
+                        //Code below reads the file, adding both the name and dosage times, then separates to get just the medication
+                        //It then adds the medication to a list, and prints it to the screen for the user to view. 
                          string[] medFileContents = File.ReadAllLines("Medication_List.txt");
                             foreach(string medicationInfo in medFileContents)
                                 {
@@ -148,6 +156,6 @@ class Program
             } while (medModeChoice != "Exit to Main Menu");    
 
             }
-        } while (choice != "Exit");
+        } while (choice != "Exit"); */
     }
 }
