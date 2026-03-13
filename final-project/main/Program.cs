@@ -120,7 +120,11 @@ class Program
 
                             else if (MedicationChoice == "Remove Medication")
                             {
-                            string medicationToRemove;
+                            List<string> medicationToRemove = AnsiConsole.Prompt(
+                            new SelectionPrompt<List<string>>()
+                            .Title("Which medication would you like to remove?")
+                            .AddChoices(medicationList)
+                            );
      
                                 
                             Console.WriteLine("Medication Removed");
