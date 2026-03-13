@@ -3,6 +3,9 @@
 using System.Reflection.Metadata.Ecma335;
 using System.IO;
 using Spectre.Console;
+using System.Collections;
+using System.Linq;
+
 class Program
 {
     static void Main(string[] args)
@@ -69,18 +72,11 @@ class Program
                     else if (medModeChoice == "Medications")
                     {
                     string MedicationChoice;
+                    List<string> medicationList = new List<string>(); 
                     do {
-
-                        MedicationChoice = AnsiConsole.Prompt(
-                        new SelectionPrompt<string>()
-                        .Title("What would you like to do?")
-                        .AddChoices("View Current Medications","Add Medication","Remove Medication","Show Medication Reminders", "Return to Medical Menu")
-                        );
-
-                        if (MedicationChoice == "View Current Medications")
-                            {
-                            string[] medFileContents = File.ReadAllLines("Medication_List.txt");
-                            //string[] medications = Split(medFileContents,",");
+                        /*Code below reads the file, adding both the name and dosage times, then separates to get just the medication
+                        It then adds the medication to a list, and prints it to the screen for the user to view. */
+                         string[] medFileContents = File.ReadAllLines("Medication_List.txt");
                             foreach(string medicationInfo in medFileContents)
                                 {
                                 string[] medicationInfoSplit = medicationInfo.Split(',');
@@ -88,15 +84,29 @@ class Program
                                 foreach(string medication in medicationInfoSplit)
                                 
                                     {
-                                        if (count % 2 == 0)
+                                        if (count % 2 == 0 & !medicationList.Contains(medication))
                                         {
-                                        Console.WriteLine(medication);    
+                                        medicationList.Add(medication);      
                                         }
                                         count += 1;
                                     }
                                 //Console.WriteLine(medicationInfo);   
                                 }
-                            Console.WriteLine("Medications viewed");
+                        MedicationChoice = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                        .Title("What would you like to do?")
+                        .AddChoices("View Current Medications","Add Medication","Remove Medication","Show Medication Reminders", "Return to Medical Menu")
+                        );
+                        
+                        if (MedicationChoice == "View Current Medications")
+                            {
+                            Console.WriteLine(Environment.NewLine);
+                            foreach(string medication in medicationList)
+                                {
+                                    Console.WriteLine(medication);
+                                }
+                            
+                            Console.WriteLine(Environment.NewLine);
                             }
 
                             else if (MedicationChoice == "Add Medication")
@@ -110,6 +120,9 @@ class Program
 
                             else if (MedicationChoice == "Remove Medication")
                             {
+                            string medicationToRemove;
+     
+                                
                             Console.WriteLine("Medication Removed");
                             }
                             else if (MedicationChoice == "Show Medication Reminders")
