@@ -5,8 +5,8 @@ namespace main;
 
 public class Medication
 {
-    public string Name { get; }
-    public int AdministrationTimes { get; } 
+    public string Name { get; set; }
+    public int AdministrationTimes { get; set; } 
 
     public Medication(string name, int administrationTimes)
     {
@@ -31,13 +31,13 @@ public class MedicationLog
 
     public void AddMedication(Medication medication)
     {
-        MedicationLog.Add(medication);
-        SynchronizeMedications;
+        this.Meds.Add(medication);
+        SynchronizeMedications();
     }
 
     public void RemoveMedication(Medication medication)
     {
-        MedicationLog.Remove(medication);
+        this.Meds.Remove(medication);
         SynchronizeMedications();
     }
 
@@ -48,7 +48,7 @@ public class MedicationLog
             File.Delete("Medication_List.txt");
         }
 
-        foreach (Medication medication in medicationLog.Meds)
+        foreach (Medication medication in this.Meds)
         {
             File.AppendAllText("Medication_List.txt", medication.Name+','+ medication.AdministrationTimes);
         }

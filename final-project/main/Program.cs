@@ -135,10 +135,14 @@ class Program
                             else if (MedicationChoice == "Add Medication")
                             {
                             Console.WriteLine("What medication do you want to add?");
-                            string med = Console.ReadLine();
+                            
+                            Medication medication;
+                            medication = new Medication("Test Data",0);
+                            string medName = Console.ReadLine();
                             int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times is it administered a day?"));
-                            
-                            
+                            medication.Name = medName;
+                            medication.AdministrationTimes = times;
+                            medicationLog.AddMedication(medication);
                             
                             /*Console.WriteLine("What is the medication name?");
                             string medicationName = Console.ReadLine();

@@ -1,11 +1,1 @@
-Test Med,5
-Test MedTwo,3
-Nexgard,1
-Test MedThree,5
-Test MedFour,6
-Test MedFive,2
-Test MedSix,1
-Test MedSeven,6
-Test MedEight,3
-Test MedNine,3
-Med New,4
+Rabies Meds,5
