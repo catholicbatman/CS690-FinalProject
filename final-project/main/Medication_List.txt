@@ -1,4 +1,5 @@
 TestMed Three,3
 TestMed Five,3
-TestMed Six,4
-TestMed Seven,4
+TestMed One,2
+TestMed Two,3
+TestMed Four,3

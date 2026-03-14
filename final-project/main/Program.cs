@@ -120,11 +120,11 @@ class Program
                             medication.AdministrationTimes = times;
                             medicationLog.AddMedication(medication);
 
-                            Console.WriteLine(Environment.NewLine);
-                            Console.WriteLine(medication.Name +"has been added to the list.");
+                            Console.WriteLine(medication.Name +" has been added to the list.");
                             }
 
                             else if (MedicationChoice == "Remove Medication")
+
                             {
                             medRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Medication>()
                             .Title("Please select the medication you want to remove.")
@@ -132,12 +132,17 @@ class Program
                             );
 
                             medicationLog.RemoveMedication(medRemovalChoice);
-                                
-                            Console.WriteLine("Medication Removed");
+                            
+                            Console.WriteLine(medRemovalChoice + " has been removed.");    
                             }
+
                             else if (MedicationChoice == "Show Medication Reminders")
                             {
                             Console.WriteLine("Here are the medication reminders:");
+                            foreach(Medication medication in medicationLog.Meds)
+                                {
+                                    Console.WriteLine("Administer " + medication + " " + medication.AdministrationTimes + " times a day.");
+                                }
                             }
 
                     }while(MedicationChoice != "Return to Medical Menu");        
