@@ -50,7 +50,7 @@ public class MedicationLog
 
         foreach (Medication medication in this.Meds)
         {
-            File.AppendAllText("Medication_List.txt", medication.Name+','+ medication.AdministrationTimes);
+            File.AppendAllText("Medication_List.txt", medication.Name+','+ medication.AdministrationTimes +Environment.NewLine);
         }
     }
     /*public override string ToString()

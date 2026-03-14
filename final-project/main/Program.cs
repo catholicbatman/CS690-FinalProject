@@ -10,24 +10,27 @@ class Program
 {
     static void Main(string[] args)
     {
+
     MedicationLog medicationLog;
 
+    string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
     medicationLog = new MedicationLog();
-
-    /*Console.WriteLine("What medication do you want to add?");
-    string med = Console.ReadLine();
-    int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times?"));
-
-    medicationLog.Meds.Add(new Medication(med,times));
-    medicationLog.Meds.Add(new Medication("MED TWO",1));
-    medicationLog.Meds.Add(new Medication("MED THREE",3));
-
-    foreach (Medication medication in medicationLog.Meds)
+    string[] medicationInfoSplit;
+    foreach(string medicationInfo in unsortedMedData)
         {
-             Console.WriteLine(medication);
+        Medication medication;
+        medication = new Medication("Tested",0);
+        medicationInfoSplit = medicationInfo.Split(',');
+        medication.Name = medicationInfoSplit[0];
+        medication.AdministrationTimes = Convert.ToInt32(medicationInfoSplit[1]);
+        medicationLog.Meds.Add(medication);
         }
+    int count = 0;
+    
 
-    var choice = AnsiConsole.Prompt(
+
+
+    /*var choice = AnsiConsole.Prompt(
             new SelectionPrompt<Medication>()
             .Title("Please select the medication you want to remove.")
             .AddChoices(medicationLog.Meds)
@@ -94,27 +97,8 @@ class Program
                     //sub submenu selection for medication options
                     else if (medModeChoice == "Medications")
                     {
-                    string MedicationChoice;
-                    List<string> medicationList = new List<string>(); 
+                    string MedicationChoice; 
                     do {
-                        //Code below reads the file, adding both the name and dosage times, then separates to get just the medication
-                        //It then adds the medication to a list, and prints it to the screen for the user to view. 
-                         string[] medFileContents = File.ReadAllLines("Medication_List.txt");
-                            foreach(string medicationInfo in medFileContents)
-                                {
-                                string[] medicationInfoSplit = medicationInfo.Split(',');
-                                int count = 0;
-                                foreach(string medication in medicationInfoSplit)
-                                
-                                    {
-                                        if (count % 2 == 0 & !medicationList.Contains(medication))
-                                        {
-                                        medicationList.Add(medication);      
-                                        }
-                                        count += 1;
-                                    }
-                                //Console.WriteLine(medicationInfo);   
-                                }
                         MedicationChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
@@ -124,7 +108,7 @@ class Program
                         if (MedicationChoice == "View Current Medications")
                             {
                             Console.WriteLine(Environment.NewLine);
-                            foreach(string medication in medicationList)
+                            foreach(Medication medication in medicationLog.Meds)
                                 {
                                     Console.WriteLine(medication);
                                 }
@@ -143,21 +127,11 @@ class Program
                             medication.Name = medName;
                             medication.AdministrationTimes = times;
                             medicationLog.AddMedication(medication);
-                            
-                            /*Console.WriteLine("What is the medication name?");
-                            string medicationName = Console.ReadLine();
-                            Console.WriteLine("How many times a day is it administered?");
-                            string medicationAdministrationTimes = Console.ReadLine();
-                            File.AppendAllText("Medication_List.txt", medicationName + "," + medicationAdministrationTimes + Environment.NewLine);*/
                             }
 
                             else if (MedicationChoice == "Remove Medication")
                             {
-                            List<string> medicationToRemove = AnsiConsole.Prompt(
-                            new SelectionPrompt<List<string>>()
-                            .Title("Which medication would you like to remove?")
-                            .AddChoices(medicationList)
-                            );
+                            
      
                                 
                             Console.WriteLine("Medication Removed");
