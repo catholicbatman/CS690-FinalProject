@@ -25,17 +25,6 @@ class Program
         medication.AdministrationTimes = Convert.ToInt32(medicationInfoSplit[1]);
         medicationLog.Meds.Add(medication);
         }
-    int count = 0;
-    
-
-
-
-    /*var choice = AnsiConsole.Prompt(
-            new SelectionPrompt<Medication>()
-            .Title("Please select the medication you want to remove.")
-            .AddChoices(medicationLog.Meds)
-            );*/
-
     
         string choice;
         do {
@@ -99,6 +88,7 @@ class Program
                     {
                     string MedicationChoice; 
                     do {
+                        Medication medRemovalChoice;
                         MedicationChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
@@ -107,7 +97,9 @@ class Program
                         
                         if (MedicationChoice == "View Current Medications")
                             {
+    
                             Console.WriteLine(Environment.NewLine);
+                            Console.WriteLine("Here are the current medications the dog is taking:");
                             foreach(Medication medication in medicationLog.Meds)
                                 {
                                     Console.WriteLine(medication);
@@ -127,12 +119,19 @@ class Program
                             medication.Name = medName;
                             medication.AdministrationTimes = times;
                             medicationLog.AddMedication(medication);
+
+                            Console.WriteLine(Environment.NewLine);
+                            Console.WriteLine(medication.Name +"has been added to the list.");
                             }
 
                             else if (MedicationChoice == "Remove Medication")
                             {
-                            
-     
+                            medRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Medication>()
+                            .Title("Please select the medication you want to remove.")
+                            .AddChoices(medicationLog.Meds)
+                            );
+
+                            medicationLog.RemoveMedication(medRemovalChoice);
                                 
                             Console.WriteLine("Medication Removed");
                             }
