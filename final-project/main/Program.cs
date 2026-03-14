@@ -14,7 +14,7 @@ class Program
 
     medicationLog = new MedicationLog();
 
-    Console.WriteLine("What medication do you want to add?");
+    /*Console.WriteLine("What medication do you want to add?");
     string med = Console.ReadLine();
     int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times?"));
 
@@ -29,11 +29,11 @@ class Program
 
     var choice = AnsiConsole.Prompt(
             new SelectionPrompt<Medication>()
-            .Title("What would you like to do?")
+            .Title("Please select the medication you want to remove.")
             .AddChoices(medicationLog.Meds)
-            );
+            );*/
 
-    /*
+    
         string choice;
         do {
 
@@ -134,11 +134,17 @@ class Program
 
                             else if (MedicationChoice == "Add Medication")
                             {
-                            Console.WriteLine("What is the medication name?");
+                            Console.WriteLine("What medication do you want to add?");
+                            string med = Console.ReadLine();
+                            int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times is it administered a day?"));
+                            
+                            
+                            
+                            /*Console.WriteLine("What is the medication name?");
                             string medicationName = Console.ReadLine();
                             Console.WriteLine("How many times a day is it administered?");
                             string medicationAdministrationTimes = Console.ReadLine();
-                            File.AppendAllText("Medication_List.txt", medicationName + "," + medicationAdministrationTimes + Environment.NewLine);
+                            File.AppendAllText("Medication_List.txt", medicationName + "," + medicationAdministrationTimes + Environment.NewLine);*/
                             }
 
                             else if (MedicationChoice == "Remove Medication")
@@ -171,6 +177,6 @@ class Program
             } while (medModeChoice != "Exit to Main Menu");    
 
             }
-        } while (choice != "Exit"); */
+        } while (choice != "Exit"); 
     }
 }
