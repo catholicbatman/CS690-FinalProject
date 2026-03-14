@@ -10,13 +10,13 @@ public class Medication
     public Medication(string name, int administrationTimes)
     {
         this.Name = name;
-        this.AdminstrationTimes = administrationTimes;
+        this.AdministrationTimes = administrationTimes;
     }
 
-    /*public override string ToString()
+    public override string ToString()
     {
         return this.Name;
-    }*/
+    }
 }
 
 public class MedicationLog
@@ -27,5 +27,10 @@ public class MedicationLog
     {
     this.Meds = new List<Medication>();     
     }
+
+    /*public override string ToString()
+    {
+        return this.Meds;
+    }*/
 
 }

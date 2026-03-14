@@ -14,9 +14,24 @@ class Program
 
     medicationLog = new MedicationLog();
 
-    medicationLog.Meds.Add("MED ONE",2);
+    Console.WriteLine("What medication do you want to add?");
+    string med = Console.ReadLine();
+    int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times?"));
 
-    Console.WriteLine(medicationLog.Meds);
+    medicationLog.Meds.Add(new Medication(med,times));
+    medicationLog.Meds.Add(new Medication("MED TWO",1));
+    medicationLog.Meds.Add(new Medication("MED THREE",3));
+
+    foreach (Medication medication in medicationLog.Meds)
+        {
+             Console.WriteLine(medication);
+        }
+
+    var choice = AnsiConsole.Prompt(
+            new SelectionPrompt<Medication>()
+            .Title("What would you like to do?")
+            .AddChoices(medicationLog.Meds)
+            );
 
     /*
         string choice;
