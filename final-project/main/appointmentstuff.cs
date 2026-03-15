@@ -6,11 +6,11 @@ public class Appointment
     public TimeOnly Time { get; set; }
     public string VisitReason { get; set; } 
 
-    public Appointment(DateOnly date, TimeOnly time, string visitReason)
+    public Appointment(string visitReason, DateOnly date, TimeOnly time)
     {
+        this.VisitReason = visitReason;
         this.Date = date;
         this.Time = time;
-        this.VisitReason = visitReason;
     }
 
     public override string ToString()
@@ -51,4 +51,6 @@ public class AppointmentLog
             File.AppendAllText("Appointment_List.txt", appointment.VisitReason+','+ appointment.Date + ',' + appointment.Time +Environment.NewLine);
         }
     }
+
+    
 }

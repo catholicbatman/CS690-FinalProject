@@ -12,6 +12,31 @@ class Program
     {
 
     MedicationLog medicationLog;
+    AppointmentLog appointmentLog; 
+    
+    string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
+    appointmentLog = new AppointmentLog();
+    string[] appointmentInfoSplit;
+    string[] dateInfo;
+    string[] timeInfo;
+    DateOnly appointmentDate;
+    //appointmentDate = DateOnly.MinValue;
+    //Console.WriteLine(appointmentDate.Day);
+
+    foreach(string appointmentInfo in unsortedAppointmentData)
+        {
+        /*Appointment appointment;
+        appointment = new Appointment("",appointmentDate,TimeOnly(0,0));
+        appointmentInfoSplit =  appointmentInfo.Split(',');
+        appointment.VisitReason = appointmentInfoSplit[0];
+        dateInfo = appointmentInfoSplit[1].Split('-');
+        DateOnly appointmentDate = DateOnly(Convert.ToInt32(dateInfo[0]),Convert.ToInt32(dateInfo[1]), Convert.ToInt32(dateInfo[2]));
+        appointment.Date = apppointmentDate;
+        timeInfo = appointmentInfoSplit[2].Split(':');
+        appointment.Time = TimeOnly(Convert.ToInt32(timeInfo[0]),Convert.ToInt32(timeInfo[1]));
+        appointmentLog.Appointments.Add(appointment);*/
+        }
+
 
     string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
     medicationLog = new MedicationLog();
@@ -70,8 +95,21 @@ class Program
                             }
                             else if (AppointmentChoice == "Add Appointment")
                             {
-                            Console.WriteLine("Added Appointment");
+                            /*Appointment appointment;
+                            appointment = new Appointment("", DateOnly(1,1,1), TimeOnly(0,0));
+                            string appointmentReason = AnsiConsole.Prompt(new TextPrompt<string>("What is the reason for the appointment?"));
+                            int year = AnsiConsole.Prompt(new TextPrompt<int>("What year is the appointment?"));
+                            int month = AnsiConsole.Prompt(new TextPrompt<int>("What month is the appointment?"));
+                            int day = AnsiConsole.Prompt(new TextPrompt<int>("What day is the appointment?"));
+                            int hour = AnsiConsole.Prompt(new TextPrompt<int>("What time is the appointment? Enter the hour here using 24 hour time, then hit enter to put in the minutes."));
+                            int minutes = AnsiConsole.Prompt(new TextPrompt<int>("The hour of the appointment is " + hour + "o'clock. What minute of that hour is the appointment?"));
+                            appointment.VisitReason = appointmentReason;
+                            appointment.Date = DateOnly(year,month,day);
+                            appointment.Time = TimeOnly(hour,minutes);
+                            appointmentLog.AddAppointment(appointment);
+                            Console.WriteLine("Added Appointment");*/
                             }
+
                             else if (AppointmentChoice == "Mark Appointment Complete")
                             {
                             Console.WriteLine("Appointment Completed");
