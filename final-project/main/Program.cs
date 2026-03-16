@@ -32,8 +32,8 @@ class Program
         appointment = new Appointment("",temporaryDate,temporaryTime);
         appointmentInfoSplit =  appointmentInfo.Split(',');
         appointment.VisitReason = appointmentInfoSplit[0];
-        dateInfo = appointmentInfoSplit[1].Split('-');
-        DateOnly appointmentDate = new(Convert.ToInt32(dateInfo[0]),Convert.ToInt32(dateInfo[1]), Convert.ToInt32(dateInfo[2]));
+        dateInfo = appointmentInfoSplit[1].Split('/');
+        DateOnly appointmentDate = new(Convert.ToInt32(dateInfo[2]),Convert.ToInt32(dateInfo[0]), Convert.ToInt32(dateInfo[1]));
         appointment.Date = appointmentDate;
         timeInfo = appointmentInfoSplit[2].Split(':');
         appointment.Time = new(Convert.ToInt32(timeInfo[0]),Convert.ToInt32(timeInfo[1]));
@@ -110,7 +110,8 @@ class Program
                             appointment.Date = new(year,month,day);
                             appointment.Time = new(hour,minutes);
                             appointmentLog.AddAppointment(appointment);
-                            Console.WriteLine("Added Appointment");
+                            Console.WriteLine("Added Appointment to the list.");
+
                             }
 
                             else if (AppointmentChoice == "Mark Appointment Complete")

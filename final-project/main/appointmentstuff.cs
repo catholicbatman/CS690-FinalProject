@@ -42,8 +42,8 @@ public class AppointmentLog
 
     public void SynchronizeAppointments()
     {
-        if(File.Exists("Appointments_List.txt")){
-            File.Delete("Appointments_List.txt");
+        if(File.Exists("Appointment_List.txt")){
+            File.Delete("Appointment_List.txt");
         }
 
         foreach (Appointment appointment in this.Appointments)
