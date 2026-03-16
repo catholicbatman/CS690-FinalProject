@@ -1,5 +1,4 @@
 Dog laying around not eating,05/12/2026,13:30,SCHEDULED
 Swallowed a ball,09/12/2026,05:50,SCHEDULED
 Paw sore,12/04/2026,09:22,COMPLETED
-Constant howling,01/12/2026,03:00,SCHEDULED
 Odd mass on back,08/08/2026,02:30,SCHEDULED
