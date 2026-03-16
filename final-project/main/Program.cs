@@ -38,6 +38,7 @@ class Program
         appointment.Date = appointmentDate;
         timeInfo = appointmentInfoSplit[2].Split(':');
         appointment.Time = new(Convert.ToInt32(timeInfo[0]),Convert.ToInt32(timeInfo[1]));
+        appointment.Status = appointmentInfoSplit[3];
         appointmentLog.Appointments.Add(appointment);
         }
 
