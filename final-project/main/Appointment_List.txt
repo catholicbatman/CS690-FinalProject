@@ -1,2 +1,4 @@
 Dog laying around not eating,05/12/2026,13:30
-Swallowed a ball,03/17/2026,12:00
+Swallowed a ball,09/12/2026,05:50
+Paw sore,12/04/2026,09:22
+Testing Appointment,05/18/2026,03:33

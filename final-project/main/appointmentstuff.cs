@@ -4,18 +4,20 @@ public class Appointment
 {
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; }
-    public string VisitReason { get; set; } 
+    public string VisitReason { get; set; }
+    public string Status { get; set; }
 
-    public Appointment(string visitReason, DateOnly date, TimeOnly time)
+    public Appointment(string visitReason, DateOnly date, TimeOnly time, string status = "SCHEDULED")
     {
         this.VisitReason = visitReason;
         this.Date = date;
         this.Time = time;
+        this.Status = status;
     }
 
     public override string ToString()
     {
-        return "Reason: " + this.VisitReason + " Date: " + this.Date + " Time: " + this.Time;
+        return this.Status + " Reason: " + this.VisitReason + " Date: " + this.Date + " Time: " + this.Time;
     }
 }
 

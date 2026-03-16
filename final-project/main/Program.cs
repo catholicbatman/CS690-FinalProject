@@ -5,6 +5,7 @@ using System.IO;
 using Spectre.Console;
 using System.Collections;
 using System.Linq;
+using Microsoft.VisualBasic;
 
 class Program
 {
@@ -75,7 +76,8 @@ class Program
             {
                 string medModeChoice;
             do {
-                Appointment appointmentRemovalChoice;    
+                Appointment appointmentRemovalChoice;
+                Appointment appointmentCompleted;    
                 medModeChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Which would you like to manage?")
@@ -128,8 +130,13 @@ class Program
 
                             else if (AppointmentChoice == "Mark Appointment Complete")
                             {
-                            
-                            Console.WriteLine("Appointment Completed");
+                            appointmentCompleted = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
+                            .Title("Please select the appointment you want to mark as complete.")
+                            .AddChoices(appointmentLog.Appointments)
+                            );
+                            appointmentCompleted.Status = "COMPLETED";
+                            appointmentLog.SynchronizeAppointments();
+                            Console.WriteLine("Appointment Marked as Completed");
                             }
 
                             else if (AppointmentChoice == "Remove Appointment")
