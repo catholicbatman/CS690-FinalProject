@@ -15,7 +15,7 @@ public class Appointment
 
     public override string ToString()
     {
-        return "Reason: " + this.VisitReason + "Date: " + this.Date + "Time: " + this.Time;
+        return "Reason: " + this.VisitReason + " Date: " + this.Date + " Time: " + this.Time;
     }
 }
 
