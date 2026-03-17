@@ -63,7 +63,7 @@ class Program
             choice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("What would you like to do?")
-            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise","Control Meal Records","Track Dog Info","Exit")
+            .AddChoices("Manage Supply Inventory - COMING SOON!","Track Medical Information","Track Exercise - COMING SOON!","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
             );
             
             //submenu for selection supply things
@@ -82,7 +82,7 @@ class Program
                 medModeChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Which would you like to manage?")
-                .AddChoices("Appointments","Medications","Vaccinations","Exit to Main Menu")
+                .AddChoices("Appointments","Medications","Vaccinations - COMING SOON!","Exit to Main Menu")
                 );
 
                     //sub submenu selection for appointment options
