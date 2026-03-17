@@ -50,7 +50,7 @@ public class AppointmentLog
 
         foreach (Appointment appointment in this.Appointments)
         {
-            File.AppendAllText("Appointment_List.txt", appointment.VisitReason+','+ appointment.Date + ',' + appointment.Time + ',' + appointment.Status +Environment.NewLine);
+            File.AppendAllText("Appointment_List.txt", appointment.VisitReason+','+ appointment.Date + ',' + appointment.Time.Hour + ':' + appointment.Time.Minute + ',' + appointment.Status +Environment.NewLine);
         }
     }
 
