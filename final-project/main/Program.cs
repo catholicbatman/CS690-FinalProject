@@ -5,6 +5,7 @@ using System.IO;
 using Spectre.Console;
 using System.Collections;
 using System.Linq;
+using Microsoft.VisualBasic;
 
 class Program
 {
@@ -12,6 +13,35 @@ class Program
     {
 
     MedicationLog medicationLog;
+    AppointmentLog appointmentLog; 
+    
+    string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
+    appointmentLog = new AppointmentLog();
+    string[] appointmentInfoSplit;
+    string[] dateInfo;
+    string[] timeInfo;
+    //DateOnly appointmentDate;
+    DateOnly temporaryDate;
+    TimeOnly temporaryTime;
+    temporaryDate = DateOnly.MinValue;
+    temporaryTime = TimeOnly.MinValue;
+    //Console.WriteLine(appointmentDate.Day);
+
+    foreach(string appointmentInfo in unsortedAppointmentData)
+        {
+        Appointment appointment;
+        appointment = new Appointment("",temporaryDate,temporaryTime);
+        appointmentInfoSplit =  appointmentInfo.Split(',');
+        appointment.VisitReason = appointmentInfoSplit[0];
+        dateInfo = appointmentInfoSplit[1].Split('/');
+        DateOnly appointmentDate = new(Convert.ToInt32(dateInfo[2]),Convert.ToInt32(dateInfo[0]), Convert.ToInt32(dateInfo[1]));
+        appointment.Date = appointmentDate;
+        timeInfo = appointmentInfoSplit[2].Split(':');
+        appointment.Time = new(Convert.ToInt32(timeInfo[0]),Convert.ToInt32(timeInfo[1]));
+        appointment.Status = appointmentInfoSplit[3];
+        appointmentLog.Appointments.Add(appointment);
+        }
+
 
     string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
     medicationLog = new MedicationLog();
@@ -46,7 +76,9 @@ class Program
             else if(choice == "Track Medical Information")
             {
                 string medModeChoice;
-            do {    
+            do {
+                Appointment appointmentRemovalChoice;
+                Appointment appointmentCompleted;    
                 medModeChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Which would you like to manage?")
@@ -66,20 +98,61 @@ class Program
 
                             if (AppointmentChoice == "View Appointments")
                             {
-                            Console.WriteLine("Appointments Viewed");
+                            int appointmentNumber = 1;
+                            Console.WriteLine(Environment.NewLine);
+                            Console.WriteLine("Here are the appointments in the appointment log:");
+                            Console.WriteLine(Environment.NewLine);
+                            foreach(Appointment appointment in appointmentLog.Appointments)
+                                {
+                                    Console.WriteLine("Appointment " + appointmentNumber + " ");
+                                    Console.WriteLine(appointment);
+                                    Console.WriteLine(Environment.NewLine);
+                                    appointmentNumber += 1; 
+                                }
                             }
+
+                        
                             else if (AppointmentChoice == "Add Appointment")
                             {
-                            Console.WriteLine("Added Appointment");
+                            Appointment appointment;
+                            appointment = new Appointment("", new(1,1,1), new(0,0));
+                            string appointmentReason = AnsiConsole.Prompt(new TextPrompt<string>("What is the reason for the appointment?"));
+                            int year = AnsiConsole.Prompt(new TextPrompt<int>("What year is the appointment?"));
+                            int month = AnsiConsole.Prompt(new TextPrompt<int>("What month is the appointment? Please enter the month number."));
+                            int day = AnsiConsole.Prompt(new TextPrompt<int>("What day is the appointment? Please enter the day number."));
+                            int hour = AnsiConsole.Prompt(new TextPrompt<int>("What time is the appointment? Enter the hour here using 24 hour time, then hit enter to put in the minutes."));
+                            int minutes = AnsiConsole.Prompt(new TextPrompt<int>("The hour of the appointment is " + hour + "o'clock. What minute of that hour is the appointment?"));
+                            appointment.VisitReason = appointmentReason;
+                            appointment.Date = new(year,month,day);
+                            appointment.Time = new(hour,minutes);
+                            appointmentLog.AddAppointment(appointment);
+                            Console.WriteLine("Added Appointment to the list.");
                             }
+
                             else if (AppointmentChoice == "Mark Appointment Complete")
                             {
-                            Console.WriteLine("Appointment Completed");
+                            appointmentCompleted = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
+                            .Title("Please select the appointment you want to mark as complete.")
+                            .AddChoices(appointmentLog.Appointments)
+                            );
+                            appointmentCompleted.Status = "COMPLETED";
+                            appointmentLog.SynchronizeAppointments();
+                            Console.WriteLine("Appointment Marked as Completed");
                             }
+
                             else if (AppointmentChoice == "Remove Appointment")
                             {
+                            appointmentRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
+                            .Title("Please select the appointment you want to remove.")
+                            .AddChoices(appointmentLog.Appointments)
+                            );
+
+                            appointmentLog.RemoveAppointment(appointmentRemovalChoice);
+                            
+                            Console.WriteLine(appointmentRemovalChoice + " has been removed.");    
                             Console.WriteLine("Appointment Removed");
                             }
+
                     }while(AppointmentChoice != "Return to Medical Menu");        
                     }
 
