@@ -1,6 +1,6 @@
 namespace main;
 
-public class Supply
+/*public class Supply
 {
     public string Name { get; set; }
     public int Amount {get; set; }
@@ -53,4 +53,4 @@ public class SupplyLog
     }
 
     
-}
+}*/
