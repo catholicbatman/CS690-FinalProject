@@ -25,7 +25,6 @@ class Program
     TimeOnly temporaryTime;
     temporaryDate = DateOnly.MinValue;
     temporaryTime = TimeOnly.MinValue;
-    //Console.WriteLine(appointmentDate.Day);
 
     foreach(string appointmentInfo in unsortedAppointmentData)
         {
@@ -42,7 +41,6 @@ class Program
         appointmentLog.Appointments.Add(appointment);
         }
 
-
     string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
     medicationLog = new MedicationLog();
     string[] medicationInfoSplit;
@@ -56,6 +54,7 @@ class Program
         medicationLog.Meds.Add(medication);
         }
     
+        //The following is the UI menu, offering choices and then subsequent choices to the user in a loop.
         string choice;
         do {
 
@@ -66,7 +65,7 @@ class Program
             .AddChoices("Manage Supply Inventory - COMING SOON!","Track Medical Information","Track Exercise - COMING SOON!","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
             );
             
-            //submenu for selection supply things
+            //submenu for supply management
             if(choice == "Manage Supply Inventory")
             {
                 Console.WriteLine("Manage Supply");

@@ -1,4 +1,1 @@
-TestMed Three,3
-TestMed One,2
-TestMed Two,3
 Antibiotic,2

@@ -1,6 +1,6 @@
-namespace main;
+/*namespace main;
 
-/*public class Supply
+public class Supply
 {
     public string Name { get; set; }
     public int Amount {get; set; }
@@ -15,7 +15,7 @@ namespace main;
 
     public override string ToString()
     {
-        return "Type " + this.Type + " Name: " + this.Name + " Amount: " + this.Amount;
+        return "Type: " + this.Type + " Name: " + this.Name + " Amount: " + this.Amount;
     }
 }
 
@@ -28,29 +28,29 @@ public class SupplyLog
     this.Supplies = new List<Supply>();     
     }
 
-    public void AddAppointment(Appointment newAppointment)
+    public void AddSupply(Supply newSupply)
     {
-        this.Appointments.Add(newAppointment);
-        SynchronizeAppointments();
+        this.Supplies.Add(newSupply);
+        SynchronizeSupplies();
     }
 
-    public void RemoveAppointment(Appointment appointmentToRemove)
+    public void RemoveSupply(Supply supplyToRemove)
     {
-        this.Appointments.Remove(appointmentToRemove);
-        SynchronizeAppointments();
+        this.Supplies.Remove(supplyToRemove);
+        SynchronizeSupplies();
     }
 
-    public void SynchronizeAppointments()
+    public void SynchronizeSupplies()
     {
-        if(File.Exists("Appointment_List.txt")){
-            File.Delete("Appointment_List.txt");
+        if(File.Exists("Supply_List.txt")){
+            File.Delete("Supply_List.txt");
         }
 
-        foreach (Appointment appointment in this.Appointments)
+        foreach (Supply supply in this.Supplies)
         {
-            File.AppendAllText("Appointment_List.txt", appointment.VisitReason+','+ appointment.Date + ',' + appointment.Time + ',' + appointment.Status +Environment.NewLine);
+            File.AppendAllText("Supply_List.txt", supply.Type+','+ supply.Name + ',' + supply.Amount +Environment.NewLine);
         }
-    }
+    }*/
 
     
-}*/
+}
