@@ -1,4 +1,4 @@
-/*namespace main;
+namespace main;
 
 public class Supply
 {
@@ -53,4 +53,4 @@ public class SupplyLog
     }
 
     
-}*/
+}
