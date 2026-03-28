@@ -50,7 +50,7 @@ public class SupplyLog
         {
             File.AppendAllText("Supply_List.txt", supply.Type+','+ supply.Name + ',' + supply.Amount +Environment.NewLine);
         }
-    }*/
+    }
 
     
-}
+}*/
