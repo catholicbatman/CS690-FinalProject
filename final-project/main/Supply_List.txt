@@ -1,2 +1,1 @@
-treat,Marrowbone,3
-food,Purina One,2
+marrowbone,7,treat

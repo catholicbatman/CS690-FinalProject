@@ -48,7 +48,7 @@ public class SupplyLog
 
         foreach (Supply supply in this.Supplies)
         {
-            File.AppendAllText("Supply_List.txt", supply.Type+','+ supply.Name + ',' + supply.Amount +Environment.NewLine);
+            File.AppendAllText("Supply_List.txt", supply.Name + ',' + supply.Amount + ',' + supply.Type +Environment.NewLine);
         }
     }
 

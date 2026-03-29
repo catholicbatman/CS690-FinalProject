@@ -24,9 +24,9 @@ class Program
         Supply supply;
         supply = new Supply("Unnamend",0,"Untyped");
         supplyInfoSplit = supplyInfo.Split(',');
-        supply.Type = supplyInfoSplit[0];
-        supply.Name = supplyInfoSplit[1];
-        supply.Amount= Convert.ToInt32(supplyInfoSplit[2]);
+        supply.Name = supplyInfoSplit[0];
+        supply.Amount = Convert.ToInt32(supplyInfoSplit[1]);
+        supply.Type= supplyInfoSplit[2];
         supplyLog.Supplies.Add(supply);
         }
 
@@ -114,16 +114,17 @@ class Program
                     Console.WriteLine("Added " + supply.Name + " to the list.");    
                     }
 
-                    /*else if (AppointmentChoice == "Mark Appointment Complete")
+                    else if (supplyChoice == "Edit inventory for a selected item")
                     {
-                    appointmentCompleted = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
-                    .Title("Please select the appointment you want to mark as complete.")
-                    .AddChoices(appointmentLog.Appointments)
+                    Supply supplyInventoryToBeEdited = AnsiConsole.Prompt(new SelectionPrompt<Supply>()
+                    .Title("Please select the supply you want to change the inventory of from the list")
+                    .AddChoices(supplyLog.Supplies)
                     );
-                    appointmentCompleted.Status = "COMPLETED";
-                    appointmentLog.SynchronizeAppointments();
-                    Console.WriteLine("Appointment Marked as Completed");
-                    }*/
+                    int newAmount = AnsiConsole.Prompt(new TextPrompt<int>("How many of " + supplyInventoryToBeEdited.Name + " is there now?"));
+                    supplyInventoryToBeEdited.Amount = newAmount;
+                    supplyLog.SynchronizeSupplies();
+                    Console.WriteLine("The amount of " + supplyInventoryToBeEdited.Name + " in the supply log has been changed to " + supplyInventoryToBeEdited.Amount);
+                    }
 
                     /*else if (AppointmentChoice == "Remove Appointment")
                     {
