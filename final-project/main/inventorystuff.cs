@@ -15,7 +15,9 @@ public class Supply
 
     public override string ToString()
     {
-        return "Type: " + this.Type + " Name: " + this.Name + " Amount: " + this.Amount;
+        return "Name: " + this.Name +Environment.NewLine 
+        + "Amount: " + this.Amount +Environment.NewLine +
+        "Type: " + this.Type +Environment.NewLine;
     }
 }
 

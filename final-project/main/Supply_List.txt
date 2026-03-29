@@ -1,1 +1,3 @@
-marrowbone,7,treat
+marrowbone,4,treat
+Minties,25,treat
+pork rib,2,food
