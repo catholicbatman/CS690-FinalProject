@@ -1,4 +1,4 @@
-/*namespace main;
+namespace main;
 
 public class Supply
 {
@@ -15,7 +15,9 @@ public class Supply
 
     public override string ToString()
     {
-        return "Type: " + this.Type + " Name: " + this.Name + " Amount: " + this.Amount;
+        return "Name: " + this.Name +Environment.NewLine 
+        + "Amount: " + this.Amount +Environment.NewLine +
+        "Type: " + this.Type +Environment.NewLine;
     }
 }
 
@@ -48,9 +50,9 @@ public class SupplyLog
 
         foreach (Supply supply in this.Supplies)
         {
-            File.AppendAllText("Supply_List.txt", supply.Type+','+ supply.Name + ',' + supply.Amount +Environment.NewLine);
+            File.AppendAllText("Supply_List.txt", supply.Name + ',' + supply.Amount + ',' + supply.Type +Environment.NewLine);
         }
-    }*/
+    }
 
     
 }

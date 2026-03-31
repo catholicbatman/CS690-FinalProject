@@ -13,7 +13,23 @@ class Program
     {
 
     MedicationLog medicationLog;
-    AppointmentLog appointmentLog; 
+    AppointmentLog appointmentLog;
+    SupplyLog supplyLog; 
+
+    string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
+    supplyLog = new SupplyLog();
+    string[] supplyInfoSplit;
+    foreach(string supplyInfo in unsortedSupplyData)
+        {
+        Supply supply;
+        supply = new Supply("Unnamend",0,"Untyped");
+        supplyInfoSplit = supplyInfo.Split(',');
+        supply.Name = supplyInfoSplit[0];
+        supply.Amount = Convert.ToInt32(supplyInfoSplit[1]);
+        supply.Type= supplyInfoSplit[2];
+        supplyLog.Supplies.Add(supply);
+        }
+
     
     string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
     appointmentLog = new AppointmentLog();
@@ -62,14 +78,95 @@ class Program
             choice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("What would you like to do?")
-            .AddChoices("Manage Supply Inventory - COMING SOON!","Track Medical Information","Track Exercise - COMING SOON!","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
+            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise - COMING SOON!","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
             );
             
             //submenu for supply management
             if(choice == "Manage Supply Inventory")
             {
-                Console.WriteLine("Manage Supply");
-            }
+                string supplyChoice;
+
+                do {
+                    //sub submenu selection for supply options
+                    supplyChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("What would you like to do?")
+                    .AddChoices("List low supply items","Add item to supply inventory","Edit inventory for a selected item","View exact inventory","Return to Supply Menu")
+                    );
+
+                        if (supplyChoice == "List low supply items")
+                        {
+                        int supplyNumber = 1;
+                        int supplyNumberLowInSupply = 1;
+                        Console.WriteLine(Environment.NewLine);
+                        Console.WriteLine("Here are the supplies that you have 3 or less of in the supply log");
+                        Console.WriteLine(Environment.NewLine);
+                        foreach(Supply supply in supplyLog.Supplies)
+                            {
+                                if (supply.Amount <= 3)
+                                {
+                                AnsiConsole.MarkupLine("[red]Supply " + supplyNumberLowInSupply + " in low supply[/]");
+                                Console.WriteLine(supply);
+                                supplyNumberLowInSupply += 1;
+                                }
+                                supplyNumber += 1; 
+                            }
+                        }
+
+                        else if (supplyChoice == "Add item to supply inventory")
+                        {
+                        Supply supply;
+                        supply = new Supply("", 1, "");
+                        string supplyName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the supply?"));
+                        int supplyAmount = AnsiConsole.Prompt(new TextPrompt<int>("How many " + supplyName + " should be entered in the log?"));
+                        string supplyType = AnsiConsole.Prompt(new TextPrompt<string>("What type is the supply (treat, food, etc.)?"));
+                        supply.Name = supplyName;
+                        supply.Amount = supplyAmount;
+                        supply.Type = supplyType;
+                        supplyLog.AddSupply(supply);
+                        Console.WriteLine("Added " + supply.Name + " to the list.");    
+                        }
+
+                        else if (supplyChoice == "Edit inventory for a selected item")
+                        {
+                        Supply supplyInventoryToBeEdited = AnsiConsole.Prompt(new SelectionPrompt<Supply>()
+                        .Title("Please select the supply you want to change the inventory of from the list")
+                        .AddChoices(supplyLog.Supplies)
+                        );
+                        int newAmount = AnsiConsole.Prompt(new TextPrompt<int>("How many of " + supplyInventoryToBeEdited.Name + " is there now?"));
+                        supplyInventoryToBeEdited.Amount = newAmount;
+                        supplyLog.SynchronizeSupplies();
+                        Console.WriteLine("The amount of " + supplyInventoryToBeEdited.Name + " in the supply log has been changed to " + supplyInventoryToBeEdited.Amount);
+                        }
+
+                        else if (supplyChoice == "View exact inventory")
+                        {
+                        int supplyNumber = 1;
+                        Console.WriteLine(Environment.NewLine);
+                        Console.WriteLine("Here are the supplies in the supply log with the supply amount listed:");
+                        Console.WriteLine(Environment.NewLine);
+                        foreach(Supply supply in supplyLog.Supplies)
+                            {
+                                AnsiConsole.MarkupLine("[green]Supply " + supplyNumber + " in the supply list[/]");
+                                Console.WriteLine(supply);
+                                supplyNumber += 1; 
+                            }
+                        }
+                } while(supplyChoice != "Return to Supply Menu");
+            }   
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //submenu for selecting just medical things
             else if(choice == "Track Medical Information")
@@ -152,7 +249,7 @@ class Program
                             Console.WriteLine("Appointment Removed");
                             }
 
-                    }while(AppointmentChoice != "Return to Medical Menu");        
+                        }while(AppointmentChoice != "Return to Medical Menu");        
                     }
 
                     //sub submenu selection for medication options
