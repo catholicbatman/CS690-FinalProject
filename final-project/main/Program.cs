@@ -14,7 +14,8 @@ class Program
 
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;
-    SupplyLog supplyLog; 
+    SupplyLog supplyLog;
+    WalkRecord walkRecord; 
 
     string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
     supplyLog = new SupplyLog();
@@ -69,6 +70,21 @@ class Program
         medication.AdministrationTimes = Convert.ToInt32(medicationInfoSplit[1]);
         medicationLog.Meds.Add(medication);
         }
+
+    //string[] unsortedWalkData = File.ReadAllLines("Walk_Record.txt");
+    walkRecord = new WalkRecord();
+    /*string[] walkInfoSplit;
+    foreach(string walkInfo in unsortedWalkData)
+        {
+        Walk walk;
+
+        medication = new Medication("Tested",0);
+        medicationInfoSplit = medicationInfo.Split(',');
+        medication.Name = medicationInfoSplit[0];
+        medication.AdministrationTimes = Convert.ToInt32(medicationInfoSplit[1]);
+        medicationLog.Meds.Add(medication);
+        }*/
+        
     
         //The following is the UI menu, offering choices and then subsequent choices to the user in a loop.
         string choice;
@@ -78,7 +94,7 @@ class Program
             choice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("What would you like to do?")
-            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise - COMING SOON!","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
+            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
             );
             
             //submenu for supply management
@@ -154,19 +170,6 @@ class Program
                         }
                 } while(supplyChoice != "Return to Supply Menu");
             }   
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             //submenu for selecting just medical things
             else if(choice == "Track Medical Information")
@@ -280,10 +283,9 @@ class Program
                             else if (MedicationChoice == "Add Medication")
                             {
                             Console.WriteLine("What medication do you want to add?");
-                            
                             Medication medication;
                             medication = new Medication("Test Data",0);
-                            string medName = Console.ReadLine();
+                            string medName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the medication?"));
                             int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times is it administered a day?"));
                             medication.Name = medName;
                             medication.AdministrationTimes = times;
@@ -325,8 +327,70 @@ class Program
                         .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to main menu")
                         );
                     }
-            } while (medModeChoice != "Exit to Main Menu");    
+            } while (medModeChoice != "Exit to Main Menu");   
+            }
+            if(choice == "Track Exercise")
+            {
+                string exerciseChoice;
 
+                do {
+                    //sub submenu selection for exercise options
+                    exerciseChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("What would you like to do?")
+                    .AddChoices("Record A Walk","View Today's Walk Record","View This Week's Walk Record","Exit to Main Menu")
+                    );
+
+                        if (exerciseChoice == "Record A Walk")
+                        {
+                        Walk walk;
+                        DateTime now = DateTime.Now;
+                        TimeSpan walkTime = TimeSpan.FromMinutes(AnsiConsole.Prompt(new TextPrompt<double>("How long did you walk the dog in minutes?")));
+                        walk = new Walk(now, walkTime);
+                        walkRecord.AddWalk(walk);
+                        Console.WriteLine("Added this walk to the list.");
+                        }
+
+                        /*else if (supplyChoice == "Add item to supply inventory")
+                        {
+                        Supply supply;
+                        supply = new Supply("", 1, "");
+                        string supplyName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the supply?"));
+                        int supplyAmount = AnsiConsole.Prompt(new TextPrompt<int>("How many " + supplyName + " should be entered in the log?"));
+                        string supplyType = AnsiConsole.Prompt(new TextPrompt<string>("What type is the supply (treat, food, etc.)?"));
+                        supply.Name = supplyName;
+                        supply.Amount = supplyAmount;
+                        supply.Type = supplyType;
+                        supplyLog.AddSupply(supply);
+                        Console.WriteLine("Added " + supply.Name + " to the list.");    
+                        }
+
+                        else if (supplyChoice == "Edit inventory for a selected item")
+                        {
+                        Supply supplyInventoryToBeEdited = AnsiConsole.Prompt(new SelectionPrompt<Supply>()
+                        .Title("Please select the supply you want to change the inventory of from the list")
+                        .AddChoices(supplyLog.Supplies)
+                        );
+                        int newAmount = AnsiConsole.Prompt(new TextPrompt<int>("How many of " + supplyInventoryToBeEdited.Name + " is there now?"));
+                        supplyInventoryToBeEdited.Amount = newAmount;
+                        supplyLog.SynchronizeSupplies();
+                        Console.WriteLine("The amount of " + supplyInventoryToBeEdited.Name + " in the supply log has been changed to " + supplyInventoryToBeEdited.Amount);
+                        }
+
+                        else if (supplyChoice == "View exact inventory")
+                        {
+                        int supplyNumber = 1;
+                        Console.WriteLine(Environment.NewLine);
+                        Console.WriteLine("Here are the supplies in the supply log with the supply amount listed:");
+                        Console.WriteLine(Environment.NewLine);
+                        foreach(Supply supply in supplyLog.Supplies)
+                            {
+                                AnsiConsole.MarkupLine("[green]Supply " + supplyNumber + " in the supply list[/]");
+                                Console.WriteLine(supply);
+                                supplyNumber += 1; 
+                            }
+                        }*/
+                } while(exerciseChoice != "Exit to Main Menu");
             }
         } while (choice != "Exit"); 
     }
