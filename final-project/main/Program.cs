@@ -11,12 +11,14 @@ class Program
 {
     static void Main(string[] args)
     {
-
+    
+    //creating the necessary different logs of data
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;
     SupplyLog supplyLog;
     WalkRecord walkRecord; 
 
+    //Creating a new supply log and reading the Supply_List file in to add supplies to the list.
     string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
     supplyLog = new SupplyLog();
     string[] supplyInfoSplit;
@@ -151,6 +153,7 @@ class Program
                         Console.WriteLine(Environment.NewLine);
                         Console.WriteLine("Here are the supplies that you have 3 or less of in the supply log");
                         Console.WriteLine(Environment.NewLine);
+                        //This checks the supply log for supplies that have 3 or less of that supply left
                         foreach(Supply supply in supplyLog.Supplies)
                             {
                                 if (supply.Amount <= 3)
@@ -165,6 +168,7 @@ class Program
 
                         else if (supplyChoice == "Add item to supply inventory")
                         {
+                        //Creates a new supply and then fills its attributes with the user input
                         Supply supply;
                         supply = new Supply("", 1, "");
                         string supplyName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the supply?"));
@@ -179,6 +183,7 @@ class Program
 
                         else if (supplyChoice == "Edit inventory for a selected item")
                         {
+                        //Takes the selected supply from the UI menu and then changes the amount attribute to the user given value.
                         Supply supplyInventoryToBeEdited = AnsiConsole.Prompt(new SelectionPrompt<Supply>()
                         .Title("Please select the supply you want to change the inventory of from the list")
                         .AddChoices(supplyLog.Supplies)
@@ -195,6 +200,7 @@ class Program
                         Console.WriteLine(Environment.NewLine);
                         Console.WriteLine("Here are the supplies in the supply log with the supply amount listed:");
                         Console.WriteLine(Environment.NewLine);
+                        //Loops through and prints each supply in the supply log.
                         foreach(Supply supply in supplyLog.Supplies)
                             {
                                 AnsiConsole.MarkupLine("[green]Supply " + supplyNumber + " in the supply list[/]");
@@ -228,7 +234,8 @@ class Program
                         .Title("What would you like to do?")
                         .AddChoices("View Appointments","Add Appointment","Mark Appointment Complete","Remove Appointment", "Return to Medical Menu")
                         );
-
+                            
+                            //Loops through the appointment log and writes each one with an appointment number
                             if (AppointmentChoice == "View Appointments")
                             {
                             int appointmentNumber = 1;
@@ -244,7 +251,8 @@ class Program
                                 }
                             }
 
-                        
+                            //Creates an appointment, allows the user to input values for the time and day of the appointment as well as a reason
+                            //and then creates that appointment and records it in the log.
                             else if (AppointmentChoice == "Add Appointment")
                             {
                             Appointment appointment;
@@ -262,6 +270,7 @@ class Program
                             Console.WriteLine("Added Appointment to the list.");
                             }
 
+                            //Offers the user a selection menu and changes the appointment status attribute to complete that they chose
                             else if (AppointmentChoice == "Mark Appointment Complete")
                             {
                             appointmentCompleted = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
@@ -273,6 +282,7 @@ class Program
                             Console.WriteLine("Appointment Marked as Completed");
                             }
 
+                            //Offers the user a selection menu and removes the selected appointment from the list
                             else if (AppointmentChoice == "Remove Appointment")
                             {
                             appointmentRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
@@ -306,6 +316,7 @@ class Program
     
                             Console.WriteLine(Environment.NewLine);
                             Console.WriteLine("Here are the current medications the dog is taking:");
+                            //Loops through the medication log and writes each one to the terminal
                             foreach(Medication medication in medicationLog.Meds)
                                 {
                                     Console.WriteLine(medication);
@@ -316,6 +327,8 @@ class Program
 
                             else if (MedicationChoice == "Add Medication")
                             {
+                            //Creates a medication, allows the user to input values for the name and administration times per day
+                            //and then creates that exact medication and records it in the log.
                             Console.WriteLine("What medication do you want to add?");
                             Medication medication;
                             medication = new Medication("Test Data",0);
@@ -324,26 +337,24 @@ class Program
                             medication.Name = medName;
                             medication.AdministrationTimes = times;
                             medicationLog.AddMedication(medication);
-
                             Console.WriteLine(medication.Name +" has been added to the list.");
                             }
 
-                            else if (MedicationChoice == "Remove Medication")
 
+                            else if (MedicationChoice == "Remove Medication")
+                            //Offers the user a selection menu and removes the selected medication from the list
                             {
                             medRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Medication>()
                             .Title("Please select the medication you want to remove.")
-                            .AddChoices(medicationLog.Meds)
-                            );
-
+                            .AddChoices(medicationLog.Meds));
                             medicationLog.RemoveMedication(medRemovalChoice);
-                            
                             Console.WriteLine(medRemovalChoice + " has been removed.");    
                             }
 
                             else if (MedicationChoice == "Show Medication Reminders")
                             {
                             Console.WriteLine("Here are the medication reminders:");
+                                                        //Loops through the medications and lists both the name and number of times to be administered.
                             foreach(Medication medication in medicationLog.Meds)
                                 {
                                     Console.WriteLine("Administer " + medication + " " + medication.AdministrationTimes + " times a day.");
