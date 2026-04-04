@@ -234,7 +234,8 @@ class Program
                         .Title("What would you like to do?")
                         .AddChoices("View Appointments","Add Appointment","Mark Appointment Complete","Remove Appointment", "Return to Medical Menu")
                         );
-
+                            
+                            //Loops through the appointment log and writes each one with an appointment number
                             if (AppointmentChoice == "View Appointments")
                             {
                             int appointmentNumber = 1;
@@ -250,7 +251,8 @@ class Program
                                 }
                             }
 
-                        
+                            //Creates an appointment, allows the user to input values for the time and day of the appointment as well as a reason
+                            //and then creates that appointment and records it in the log.
                             else if (AppointmentChoice == "Add Appointment")
                             {
                             Appointment appointment;
@@ -268,6 +270,7 @@ class Program
                             Console.WriteLine("Added Appointment to the list.");
                             }
 
+                            //Offers the user a selection menu and changes the appointment status attribute to complete that they chose
                             else if (AppointmentChoice == "Mark Appointment Complete")
                             {
                             appointmentCompleted = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
@@ -279,6 +282,7 @@ class Program
                             Console.WriteLine("Appointment Marked as Completed");
                             }
 
+                            //Offers the user a selection menu and removes the selected appointment from the list
                             else if (AppointmentChoice == "Remove Appointment")
                             {
                             appointmentRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Appointment>()
@@ -312,6 +316,7 @@ class Program
     
                             Console.WriteLine(Environment.NewLine);
                             Console.WriteLine("Here are the current medications the dog is taking:");
+                            //Loops through the medication log and writes each one to the terminal
                             foreach(Medication medication in medicationLog.Meds)
                                 {
                                     Console.WriteLine(medication);
@@ -322,6 +327,8 @@ class Program
 
                             else if (MedicationChoice == "Add Medication")
                             {
+                            //Creates a medication, allows the user to input values for the name and administration times per day
+                            //and then creates that exact medication and records it in the log.
                             Console.WriteLine("What medication do you want to add?");
                             Medication medication;
                             medication = new Medication("Test Data",0);
@@ -330,26 +337,24 @@ class Program
                             medication.Name = medName;
                             medication.AdministrationTimes = times;
                             medicationLog.AddMedication(medication);
-
                             Console.WriteLine(medication.Name +" has been added to the list.");
                             }
 
-                            else if (MedicationChoice == "Remove Medication")
 
+                            else if (MedicationChoice == "Remove Medication")
+                            //Offers the user a selection menu and removes the selected medication from the list
                             {
                             medRemovalChoice = AnsiConsole.Prompt(new SelectionPrompt<Medication>()
                             .Title("Please select the medication you want to remove.")
-                            .AddChoices(medicationLog.Meds)
-                            );
-
+                            .AddChoices(medicationLog.Meds));
                             medicationLog.RemoveMedication(medRemovalChoice);
-                            
                             Console.WriteLine(medRemovalChoice + " has been removed.");    
                             }
 
                             else if (MedicationChoice == "Show Medication Reminders")
                             {
                             Console.WriteLine("Here are the medication reminders:");
+                                                        //Loops through the medications and lists both the name and number of times to be administered.
                             foreach(Medication medication in medicationLog.Meds)
                                 {
                                     Console.WriteLine("Administer " + medication + " " + medication.AdministrationTimes + " times a day.");
