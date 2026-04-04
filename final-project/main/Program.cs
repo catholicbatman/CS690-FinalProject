@@ -371,29 +371,30 @@ class Program
 
                         if (exerciseChoice == "Record A Walk")
                         {
-                        Walk walk;
-                        DateTime now = DateTime.Now;
-                        TimeSpan walkTime = TimeSpan.FromMinutes(AnsiConsole.Prompt(new TextPrompt<double>("How long did you walk the dog in minutes?")));
-                        walk = new Walk(now, walkTime);
-                        walkRecord.AddWalk(walk);
-                        Console.WriteLine("Added this walk to the list.");
+                            Walk walk;
+                            DateTime now = DateTime.Now;
+                            TimeSpan walkTime = TimeSpan.FromMinutes(AnsiConsole.Prompt(new TextPrompt<double>("How long did you walk the dog in minutes?")));
+                            walk = new Walk(now, walkTime);
+                            walkRecord.AddWalk(walk);
+                            Console.WriteLine("Added this walk to the list.");
                         }
 
-                        /*else if (supplyChoice == "Add item to supply inventory")
+                        else if (exerciseChoice == "View Today's Walk Record")
                         {
-                        Supply supply;
-                        supply = new Supply("", 1, "");
-                        string supplyName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the supply?"));
-                        int supplyAmount = AnsiConsole.Prompt(new TextPrompt<int>("How many " + supplyName + " should be entered in the log?"));
-                        string supplyType = AnsiConsole.Prompt(new TextPrompt<string>("What type is the supply (treat, food, etc.)?"));
-                        supply.Name = supplyName;
-                        supply.Amount = supplyAmount;
-                        supply.Type = supplyType;
-                        supplyLog.AddSupply(supply);
-                        Console.WriteLine("Added " + supply.Name + " to the list.");    
+                            int walkNumber = 1;
+                            foreach(Walk walk in walkRecord.Walks)
+                            {
+                                if (walk.Date.Year == DateTime.Now.Year && walk.Date.Month == DateTime.Now.Month && walk.Date.Day == DateTime.Now.Day)
+                                {
+                                    AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " today[/]");
+                                    Console.WriteLine(walk +Environment.NewLine);
+                                    walkNumber += 1;
+                                }
+                                
+                            }   
                         }
 
-                        else if (supplyChoice == "Edit inventory for a selected item")
+                        /*else if (supplyChoice == "Edit inventory for a selected item")
                         {
                         Supply supplyInventoryToBeEdited = AnsiConsole.Prompt(new SelectionPrompt<Supply>()
                         .Title("Please select the supply you want to change the inventory of from the list")
