@@ -32,17 +32,21 @@ class Program
         }
 
     
+
+    //Creating a new appointment log and reading the Appointment_List file in to add appointments to the list.
     string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
     appointmentLog = new AppointmentLog();
     string[] appointmentInfoSplit;
     string[] dateInfo;
     string[] timeInfo;
-    //DateOnly appointmentDate;
+    //DateOnly is a type that only keeps a date (year, month, day)
     DateOnly temporaryDate;
+    //TimeOnly is a type that only keeps a time (hours, minutes, seconds)
     TimeOnly temporaryTime;
     temporaryDate = DateOnly.MinValue;
     temporaryTime = TimeOnly.MinValue;
 
+    //reads the log info and splits it with delimeters
     foreach(string appointmentInfo in unsortedAppointmentData)
         {
         Appointment appointment;
@@ -58,6 +62,8 @@ class Program
         appointmentLog.Appointments.Add(appointment);
         }
 
+
+    //Creating a new medication log and reading the Medication_List file in to add medications to the list.
     string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
     medicationLog = new MedicationLog();
     string[] medicationInfoSplit;
@@ -72,7 +78,7 @@ class Program
         }
 
 
-    //Creating a new walkRecord and reading the walk_Record file in.
+    //Creating a new walkRecord and reading the walk_Record file in to add walks to the list.
     string[] unsortedWalkData = File.ReadAllLines("Walk_Record.txt");
     walkRecord = new WalkRecord();
     string[] walkInfoSplit;
@@ -366,11 +372,13 @@ class Program
                     exerciseChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("What would you like to do?")
-                    .AddChoices("Record A Walk","View Today's Walk Record","View This Week's Walk Record","Exit to Main Menu")
+                    .AddChoices("Record A Walk For Today","View Today's Walk Record","View This Week's Walk Record","Exit to Main Menu")
                     );
 
-                        if (exerciseChoice == "Record A Walk")
+                        if (exerciseChoice == "Record A Walk For Today")
                         {
+                            //records the date/time of today and then takes input for the walk time, and creates a new walk in the log
+                            //matching those specifications.
                             Walk walk;
                             DateTime now = DateTime.Now;
                             TimeSpan walkTime = TimeSpan.FromMinutes(AnsiConsole.Prompt(new TextPrompt<double>("How long did you walk the dog in minutes?")));
