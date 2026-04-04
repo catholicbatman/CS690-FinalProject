@@ -13,7 +13,7 @@ public class Walk
 
     public override string ToString()
     {
-        return this.Date + Environment.NewLine + "Time walked: " + this.WalkTime.Hours + " hours and " + this.WalkTime.Minutes;
+        return this.Date + Environment.NewLine + "Time walked: " + this.WalkTime.Hours + " hours and " + this.WalkTime.Minutes + " minutes";
     }
 }
 
@@ -46,7 +46,7 @@ public class WalkRecord
 
         foreach (Walk walk in this.Walks)
         {
-            File.AppendAllText("Walk_Record.txt", walk.Date +Environment.NewLine + walk.WalkTime + Environment.NewLine);
+            File.AppendAllText("Walk_Record.txt", walk.Date.ToString() +' '+ walk.WalkTime + ' '+ Environment.NewLine);
         }
     }
 
