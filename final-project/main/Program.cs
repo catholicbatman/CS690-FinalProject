@@ -14,7 +14,8 @@ class Program
 
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;
-    SupplyLog supplyLog; 
+    SupplyLog supplyLog;
+    WalkRecord walkRecord; 
 
     string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
     supplyLog = new SupplyLog();
@@ -31,17 +32,21 @@ class Program
         }
 
     
+
+    //Creating a new appointment log and reading the Appointment_List file in to add appointments to the list.
     string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
     appointmentLog = new AppointmentLog();
     string[] appointmentInfoSplit;
     string[] dateInfo;
     string[] timeInfo;
-    //DateOnly appointmentDate;
+    //DateOnly is a type that only keeps a date (year, month, day)
     DateOnly temporaryDate;
+    //TimeOnly is a type that only keeps a time (hours, minutes, seconds)
     TimeOnly temporaryTime;
     temporaryDate = DateOnly.MinValue;
     temporaryTime = TimeOnly.MinValue;
 
+    //reads the log info and splits it with delimeters
     foreach(string appointmentInfo in unsortedAppointmentData)
         {
         Appointment appointment;
@@ -57,6 +62,8 @@ class Program
         appointmentLog.Appointments.Add(appointment);
         }
 
+
+    //Creating a new medication log and reading the Medication_List file in to add medications to the list.
     string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
     medicationLog = new MedicationLog();
     string[] medicationInfoSplit;
@@ -69,6 +76,49 @@ class Program
         medication.AdministrationTimes = Convert.ToInt32(medicationInfoSplit[1]);
         medicationLog.Meds.Add(medication);
         }
+
+
+    //Creating a new walkRecord and reading the walk_Record file in to add walks to the list.
+    string[] unsortedWalkData = File.ReadAllLines("Walk_Record.txt");
+    walkRecord = new WalkRecord();
+    string[] walkInfoSplit;
+    string[] dateParts;
+    string[] timeParts;
+    string[] walkTimeParts;
+    foreach(string walkInfo in unsortedWalkData)
+        {
+        Walk walk;
+        //Splits the data into date, time of day, and time walked from the Walk Record File
+        walkInfoSplit = walkInfo.Split(' ');
+
+        //gathers the day, month, and year for creating a DateTime type
+        int day, month, year;
+        dateParts = walkInfoSplit[0].Split('/');
+        month = Convert.ToInt32(dateParts[0]);
+        day = Convert.ToInt32(dateParts[1]);
+        year = Convert.ToInt32(dateParts[2]);
+
+        //gathers the hours, minutes, and seconds of the day for creating a DateTime type
+        int hours, minutes, seconds;
+        timeParts = walkInfoSplit[1].Split(':');
+        hours = Convert.ToInt32(timeParts[0]);
+        minutes = Convert.ToInt32(timeParts[1]);
+        seconds = Convert.ToInt32(timeParts[2]);
+
+        //Gets the duration of the walk from the file
+        int walkHours,walkMinutes,walkSeconds;
+        walkTimeParts = walkInfoSplit[2].Split(':');
+        walkHours = Convert.ToInt32(walkTimeParts[0]);
+        walkMinutes = Convert.ToInt32(walkTimeParts[1]);
+        walkSeconds = Convert.ToInt32(walkTimeParts[2]);
+
+        //combines all of the info from the file to create a walk with the date and time walked
+        //and then adds that walk to the walk record
+        var thisWalk = new DateTime(year,month,day,hours,minutes,seconds);
+        var thisWalkTime = new TimeSpan(walkHours,walkMinutes,walkSeconds); 
+        walk = new Walk(thisWalk,thisWalkTime);
+        walkRecord.Walks.Add(walk);
+        }
     
         //The following is the UI menu, offering choices and then subsequent choices to the user in a loop.
         string choice;
@@ -78,7 +128,7 @@ class Program
             choice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("What would you like to do?")
-            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise - COMING SOON!","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
+            .AddChoices("Manage Supply Inventory","Track Medical Information","Track Exercise","Control Meal Records - COMING SOON!","Track Dog Info - COMING SOON!","Exit")
             );
             
             //submenu for supply management
@@ -154,19 +204,6 @@ class Program
                         }
                 } while(supplyChoice != "Return to Supply Menu");
             }   
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             //submenu for selecting just medical things
             else if(choice == "Track Medical Information")
@@ -280,10 +317,9 @@ class Program
                             else if (MedicationChoice == "Add Medication")
                             {
                             Console.WriteLine("What medication do you want to add?");
-                            
                             Medication medication;
                             medication = new Medication("Test Data",0);
-                            string medName = Console.ReadLine();
+                            string medName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the medication?"));
                             int times = AnsiConsole.Prompt(new TextPrompt<int>("How many times is it administered a day?"));
                             medication.Name = medName;
                             medication.AdministrationTimes = times;
@@ -325,8 +361,147 @@ class Program
                         .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to main menu")
                         );
                     }
-            } while (medModeChoice != "Exit to Main Menu");    
+            } while (medModeChoice != "Exit to Main Menu");   
+            }
+            if(choice == "Track Exercise")
+            {
+                string exerciseChoice;
 
+                do {
+                    //sub submenu selection for exercise options
+                    exerciseChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("What would you like to do?")
+                    .AddChoices("Record A Walk For Today","View Today's Walk Record","View This Week's Walk Record","Exit to Main Menu")
+                    );
+
+                        if (exerciseChoice == "Record A Walk For Today")
+                        {
+                            //records the date/time of today and then takes input for the walk time, and creates a new walk in the log
+                            //matching those specifications.
+                            Walk walk;
+                            DateTime now = DateTime.Now;
+                            TimeSpan walkTime = TimeSpan.FromMinutes(AnsiConsole.Prompt(new TextPrompt<double>("How long did you walk the dog in minutes?")));
+                            walk = new Walk(now, walkTime);
+                            walkRecord.AddWalk(walk);
+                            Console.WriteLine("Added this walk to the list.");
+                        }
+
+                        else if (exerciseChoice == "View Today's Walk Record")
+                        {
+                            //checks all the walks in the walk record and prints them if the date of the walk matches today's date.
+                            int walkNumber = 1;
+                            foreach(Walk walk in walkRecord.Walks)
+                            {
+                                if (walk.Date.Year == DateTime.Now.Year && walk.Date.Month == DateTime.Now.Month && walk.Date.Day == DateTime.Now.Day)
+                                {
+                                    AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " today[/]");
+                                    Console.WriteLine(walk +Environment.NewLine);
+                                    walkNumber += 1;
+                                }
+                                
+                            }   
+                        }
+
+                        else if (exerciseChoice == "View This Week's Walk Record")
+                        {
+                            int walkNumber = 1;
+                            foreach(Walk walk in walkRecord.Walks)
+                            {
+
+                                //This sets the day of the week today (from Sunday to Saturday) as an integer
+                                int dayOfWeekToday = Convert.ToInt32(DateTime.Now.DayOfWeek);
+                                //This variable is the exact number of the day of the month (from 1-31)
+                                int dateToday = DateTime.Now.Day;
+                                //Creating integer variables of the past 6 days (what numbered day of the month) from the date today.
+                                DateTime oneDayAgo = DateTime.Now.AddDays(-1);
+                                int dateOneDayAgo = oneDayAgo.Day;
+                                DateTime twoDaysAgo = DateTime.Now.AddDays(-2);
+                                int dateTwoDaysAgo = twoDaysAgo.Day;
+                                DateTime threeDaysAgo = DateTime.Now.AddDays(-3);
+                                int dateThreeDaysAgo = threeDaysAgo.Day;
+                                DateTime fourDaysAgo = DateTime.Now.AddDays(-4);
+                                int dateFourDaysAgo = fourDaysAgo.Day;
+                                DateTime fiveDaysAgo = DateTime.Now.AddDays(-5);
+                                int dateFiveDaysAgo = fiveDaysAgo.Day;
+                                DateTime sixDaysAgo = DateTime.Now.AddDays(-6);
+                                int dateSixDaysAgo = sixDaysAgo.Day;
+                                //finds the last month, which is necessary because sometimes the date early in the month
+                                //will have a week that began the prior month and needs to be taken into account for producing
+                                //a weekly list of walks
+                                DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
+                                int dateOneMonthAgo = oneMonthAgo.Month;
+                                
+                                //This conditional checks to see if they year and month of each walk are aligned with
+                                //the current year and month.
+                                if (walk.Date.Year == DateTime.Now.Year && (walk.Date.Month == DateTime.Now.Month 
+                                | (walk.Date.Month == dateOneMonthAgo && walk.Date.Day > 23)))
+                                {
+                                    //All of the conditionals here check if the current day is a certain day of the week and then
+                                    //checks to see if the walk date day matches that or any day that is a part of the week (possibly
+                                    //one to six days prior. Together the conditionals ultimately print the walks of the current week)
+                                    //starting on Sunday.
+                                    if(dayOfWeekToday == 0 && walk.Date.Day == dateToday)
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+
+                                    if(dayOfWeekToday == 1 && (walk.Date.Day == dateToday | walk.Date.Day == dateOneDayAgo))
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+
+                                    if(dayOfWeekToday == 2 && 
+                                    (walk.Date.Day == dateToday | walk.Date.Day == dateOneDayAgo | walk.Date.Day == dateTwoDaysAgo))
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week (which started on Sunday)[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+
+                                    if(dayOfWeekToday == 3 && 
+                                    (walk.Date.Day == dateToday | walk.Date.Day == dateOneDayAgo | walk.Date.Day == dateTwoDaysAgo | walk.Date.Day == dateThreeDaysAgo))
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week (which started on Sunday)[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+
+                                    if(dayOfWeekToday == 4 && 
+                                    (walk.Date.Day == dateToday | walk.Date.Day == dateOneDayAgo | walk.Date.Day == dateTwoDaysAgo | walk.Date.Day == dateThreeDaysAgo
+                                    | walk.Date.Day == dateFourDaysAgo))
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week (which started on Sunday)[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+
+                                    if(dayOfWeekToday == 5 && 
+                                    (walk.Date.Day == dateToday | walk.Date.Day == dateOneDayAgo | walk.Date.Day == dateTwoDaysAgo | walk.Date.Day == dateThreeDaysAgo
+                                    | walk.Date.Day == dateFourDaysAgo | walk.Date.Day == dateFiveDaysAgo))
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week (which started on Sunday)[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+
+                                    if(dayOfWeekToday == 6 && 
+                                    (walk.Date.Day == dateToday | walk.Date.Day == dateOneDayAgo | walk.Date.Day == dateTwoDaysAgo | walk.Date.Day == dateThreeDaysAgo
+                                    | walk.Date.Day == dateFourDaysAgo | walk.Date.Day == dateFiveDaysAgo | walk.Date.Day == dateSixDaysAgo))
+                                    {
+                                        AnsiConsole.MarkupLine("[green]Walk " + walkNumber + " this week (which started on Sunday)[/]");
+                                        Console.WriteLine(walk +Environment.NewLine);
+                                        walkNumber += 1;
+                                    }
+                                }
+                                
+                            }   
+                        }
+                } while(exerciseChoice != "Exit to Main Menu");
             }
         } while (choice != "Exit"); 
     }
