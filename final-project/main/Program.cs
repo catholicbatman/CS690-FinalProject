@@ -11,12 +11,14 @@ class Program
 {
     static void Main(string[] args)
     {
-
+    
+    //creating the necessary different logs of data
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;
     SupplyLog supplyLog;
     WalkRecord walkRecord; 
 
+    //Creating a new supply log and reading the Supply_List file in to add supplies to the list.
     string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
     supplyLog = new SupplyLog();
     string[] supplyInfoSplit;
@@ -151,6 +153,7 @@ class Program
                         Console.WriteLine(Environment.NewLine);
                         Console.WriteLine("Here are the supplies that you have 3 or less of in the supply log");
                         Console.WriteLine(Environment.NewLine);
+                        //This checks the supply log for supplies that have 3 or less of that supply left
                         foreach(Supply supply in supplyLog.Supplies)
                             {
                                 if (supply.Amount <= 3)
@@ -165,6 +168,7 @@ class Program
 
                         else if (supplyChoice == "Add item to supply inventory")
                         {
+                        //Creates a new supply and then fills its attributes with the user input
                         Supply supply;
                         supply = new Supply("", 1, "");
                         string supplyName = AnsiConsole.Prompt(new TextPrompt<string>("What is the name of the supply?"));
@@ -179,6 +183,7 @@ class Program
 
                         else if (supplyChoice == "Edit inventory for a selected item")
                         {
+                        //Takes the selected supply from the UI menu and then changes the amount attribute to the user given value.
                         Supply supplyInventoryToBeEdited = AnsiConsole.Prompt(new SelectionPrompt<Supply>()
                         .Title("Please select the supply you want to change the inventory of from the list")
                         .AddChoices(supplyLog.Supplies)
@@ -195,6 +200,7 @@ class Program
                         Console.WriteLine(Environment.NewLine);
                         Console.WriteLine("Here are the supplies in the supply log with the supply amount listed:");
                         Console.WriteLine(Environment.NewLine);
+                        //Loops through and prints each supply in the supply log.
                         foreach(Supply supply in supplyLog.Supplies)
                             {
                                 AnsiConsole.MarkupLine("[green]Supply " + supplyNumber + " in the supply list[/]");
