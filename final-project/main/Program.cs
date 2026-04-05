@@ -16,7 +16,28 @@ class Program
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;
     SupplyLog supplyLog;
-    WalkRecord walkRecord; 
+    WalkRecord walkRecord;
+    VaccinationLog vaccinationLog; 
+
+    //Creating a new vaccine log and reading the Vaccine_Log file in to add vaccines to the list.
+    string[] unsortedVaccinationData = File.ReadAllLines("Vaccination_Log.txt");
+    vaccinationLog = new VaccinationLog();
+    string[] vaccinationInfoSplit;
+    DateOnly initialDate;
+    string[] dateData;
+    foreach(string vaccinationInfo in unsortedVaccinationData)
+        {
+        Vaccination vaccination;
+        initialDate = DateOnly.MinValue;
+        vaccination = new Vaccination("Untyped",initialDate,false,"0");
+        vaccinationInfoSplit = vaccinationInfo.Split(',');
+        vaccination.Type = vaccinationInfoSplit[0];
+        dateData = vaccinationInfoSplit[1].Split('/');
+        DateOnly vaccinationDate = new(Convert.ToInt32(dateData[2]),Convert.ToInt32(dateData[0]), Convert.ToInt32(dateData[1]));
+        vaccination.Date = vaccinationDate;
+        vaccination.Recurrance = Convert.ToBoolean(vaccinationInfoSplit[2]);
+        vaccination.RecurranceTime = vaccinationInfoSplit[3];
+        }
 
     //Creating a new supply log and reading the Supply_List file in to add supplies to the list.
     string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
@@ -32,8 +53,6 @@ class Program
         supply.Type= supplyInfoSplit[2];
         supplyLog.Supplies.Add(supply);
         }
-
-    
 
     //Creating a new appointment log and reading the Appointment_List file in to add appointments to the list.
     string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
