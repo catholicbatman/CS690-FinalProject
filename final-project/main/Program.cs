@@ -391,8 +391,10 @@ class Program
                         .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to main menu")
                         );
                     }
-            } while (medModeChoice != "Exit to Main Menu");   
+                } while (medModeChoice != "Exit to Main Menu");   
             }
+
+
             if(choice == "Track Exercise")
             {
                 string exerciseChoice;
