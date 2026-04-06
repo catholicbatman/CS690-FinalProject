@@ -37,6 +37,7 @@ class Program
         vaccination.Date = vaccinationDate;
         vaccination.Recurrance = Convert.ToBoolean(vaccinationInfoSplit[2]);
         vaccination.RecurranceTime = vaccinationInfoSplit[3];
+        vaccinationLog.Vaccines.Add(vaccination);
         }
 
     //Creating a new supply log and reading the Supply_List file in to add supplies to the list.
@@ -240,7 +241,7 @@ class Program
                 medModeChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Which would you like to manage?")
-                .AddChoices("Appointments","Medications","Vaccinations - COMING SOON!","Exit to Main Menu")
+                .AddChoices("Appointments","Medications","Vaccinations","Exit to Main Menu")
                 );
 
                     //sub submenu selection for appointment options
@@ -385,11 +386,67 @@ class Program
 
                     else if (medModeChoice == "Vaccinations")
                     {
-                        string VaccinationChoice = AnsiConsole.Prompt(
+                    string VaccinationChoice;
+                    do {
+                        VaccinationChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
-                        .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to main menu")
+                        .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to Medical Menu")
                         );
+
+                        if(VaccinationChoice == "Record A Vaccination")
+                        {
+                            Console.WriteLine("What vaccination do you want to add?");
+                            Vaccination vaccination;
+                            initialDate = DateOnly.MinValue;
+                            string initialReccuranceTime = "0"; 
+                            vaccination = new Vaccination("Untyped",initialDate,false,initialReccuranceTime);
+                            string vacType = AnsiConsole.Prompt(new TextPrompt<string>("What is the vaccination type?"));
+                            vaccination.Type = vacType;
+                            int vacYear = AnsiConsole.Prompt(new TextPrompt<int>("What year did the vaccination take place?"));
+                            int vacMonth = AnsiConsole.Prompt(new TextPrompt<int>("What month did the vaccination happen? Please enter the month number."));
+                            int vacDay = AnsiConsole.Prompt(new TextPrompt<int>("What day did the vaccination happen? Please enter the day number."));
+                            vaccination.Date = new DateOnly(vacYear,vacMonth,vacDay);
+                            bool recurranceState = AnsiConsole.Prompt(new TextPrompt<bool>("Is this a recurring vaccine? Please enter 'true' or 'false'."));
+                            vaccination.Recurrance = recurranceState;
+                            if (vaccination.Recurrance){
+                                vaccination.RecurranceTime = AnsiConsole.Prompt(new TextPrompt<string>("How long until this vaccination should happen again (in months)?"));
+                            }
+                            vaccinationLog.AddVaccination(vaccination);
+                            Console.WriteLine(vaccination.Type +" has been added to the vaccination log.");
+                        }
+
+
+
+
+
+
+
+
+
+                        /*if(VaccinationChoice == "Record A Vaccination")
+                        {
+                            Console.WriteLine("What vaccination do you want to add?");
+                            Vaccination vaccination;
+                            initialDate = DateOnly.MinValue;
+                            vaccination = new Vaccination("Untyped",initialDate,false,"0");
+                            string vacType = AnsiConsole.Prompt(new TextPrompt<string>("What is the vaccination type?"));
+                            vaccination.Type = vacType;
+                            int vacYear = AnsiConsole.Prompt(new TextPrompt<int>("What year did the vaccination take place?"));
+                            int vacMonth = AnsiConsole.Prompt(new TextPrompt<int>("What month did the vaccination happen? Please enter the month number."));
+                            int vacDay = AnsiConsole.Prompt(new TextPrompt<int>("What day did the vaccination happen? Please enter the day number."));
+                            vaccination.Date = new DateOnly(vacYear,vacMonth,vacDay);
+                            bool recurranceState = AnsiConsole.Prompt(new TextPrompt<bool>("Is this a recurring vaccine? Please enter 'true' or 'false'."));
+                            vaccination.Recurrance = recurranceState;
+                            if (vaccination.Recurrance){
+                                string reccuranceTime = AnsiConsole.Prompt(new TextPrompt<string>("How long until this vaccination should happen again (in months)?"));
+                            }
+                            vaccinationLog.AddVaccination(vaccination);
+                            Console.WriteLine(vaccination.Type +" has been added to the vaccination log.");
+                        }*/
+
+
+                    }while(VaccinationChoice != "Return to Medical Menu");
                     }
                 } while (medModeChoice != "Exit to Main Menu");   
             }

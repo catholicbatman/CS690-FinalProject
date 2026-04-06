@@ -1,1 +1,2 @@
-test data,6/13/1988,true,10
+Rabies,01/01/2026,True,12
+Bordetella,01/12/2026,False,0

@@ -1,2 +1,2 @@
-Antibiotic,2
-Test Med 2,8
+Laxative,1
+Nail fungus cream,3

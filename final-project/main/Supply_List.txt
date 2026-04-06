@@ -1,3 +1,5 @@
 marrowbone,4,treat
 Minties,25,treat
-pork rib,2,food
+pork rib,6,food
+soup bone,10,treat
+fish flavored treats,50,treat

@@ -1,2 +1,2 @@
-odd spot on back,05/09/2026,9:30,SCHEDULED
-puking,04/05/2026,15:30,SCHEDULED
+odd spot on back,05/09/2026,9:30,COMPLETED
+fuzzy nail fungus,04/17/2026,21:0,SCHEDULED
