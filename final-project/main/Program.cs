@@ -12,6 +12,10 @@ class Program
     static void Main(string[] args)
     {
     
+   //LogCreator logCreator;
+    //logCreator = new LogCreator("AppointmentLog");
+    //logCreator.CreateALog("AppointmentTracker");
+
     //creating the necessary different logs of data
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;

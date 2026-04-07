@@ -1,5 +1,7 @@
 namespace main;
 
+using System.IO;
+
 public class Vaccination
 {
     public string Type { get; set; }
