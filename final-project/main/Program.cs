@@ -16,7 +16,29 @@ class Program
     MedicationLog medicationLog;
     AppointmentLog appointmentLog;
     SupplyLog supplyLog;
-    WalkRecord walkRecord; 
+    WalkRecord walkRecord;
+    VaccinationLog vaccinationLog; 
+
+    //Creating a new vaccine log and reading the Vaccine_Log file in to add vaccines to the list.
+    string[] unsortedVaccinationData = File.ReadAllLines("Vaccination_Log.txt");
+    vaccinationLog = new VaccinationLog();
+    string[] vaccinationInfoSplit;
+    DateOnly initialDate;
+    string[] dateData;
+    foreach(string vaccinationInfo in unsortedVaccinationData)
+        {
+        Vaccination vaccination;
+        initialDate = DateOnly.MinValue;
+        vaccination = new Vaccination("Untyped",initialDate,false,"0");
+        vaccinationInfoSplit = vaccinationInfo.Split(',');
+        vaccination.Type = vaccinationInfoSplit[0];
+        dateData = vaccinationInfoSplit[1].Split('/');
+        DateOnly vaccinationDate = new(Convert.ToInt32(dateData[2]),Convert.ToInt32(dateData[0]), Convert.ToInt32(dateData[1]));
+        vaccination.Date = vaccinationDate;
+        vaccination.Recurrance = Convert.ToBoolean(vaccinationInfoSplit[2]);
+        vaccination.RecurranceTime = vaccinationInfoSplit[3];
+        vaccinationLog.Vaccines.Add(vaccination);
+        }
 
     //Creating a new supply log and reading the Supply_List file in to add supplies to the list.
     string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
@@ -32,8 +54,6 @@ class Program
         supply.Type= supplyInfoSplit[2];
         supplyLog.Supplies.Add(supply);
         }
-
-    
 
     //Creating a new appointment log and reading the Appointment_List file in to add appointments to the list.
     string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
@@ -221,7 +241,7 @@ class Program
                 medModeChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Which would you like to manage?")
-                .AddChoices("Appointments","Medications","Vaccinations - COMING SOON!","Exit to Main Menu")
+                .AddChoices("Appointments","Medications","Vaccinations","Exit to Main Menu")
                 );
 
                     //sub submenu selection for appointment options
@@ -366,14 +386,77 @@ class Program
 
                     else if (medModeChoice == "Vaccinations")
                     {
-                        string VaccinationChoice = AnsiConsole.Prompt(
+                    string VaccinationChoice;
+                    do {
+                        VaccinationChoice = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                         .Title("What would you like to do?")
-                        .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to main menu")
+                        .AddChoices("View Vaccination History","Show Vaccination Reminders","Record A Vaccination", "Return to Medical Menu")
                         );
+
+                        if(VaccinationChoice == "View Vaccination History")
+                        {
+                            Console.WriteLine(Environment.NewLine);
+                            Console.WriteLine("Here are the vaccinations the dog has received:");
+                            Console.WriteLine(Environment.NewLine);
+                            //Loops through the vaccination log and writes each one to the terminal
+                            foreach(Vaccination vaccination in vaccinationLog.Vaccines)
+                                {
+                                    Console.WriteLine(vaccination);
+                                }
+                            
+                            Console.WriteLine(Environment.NewLine);
+                        }
+
+                        if(VaccinationChoice == "Show Vaccination Reminders")
+                        {
+                            Console.WriteLine(Environment.NewLine);
+                            Console.WriteLine("Here are the vaccination reminders:");
+                            Console.WriteLine(Environment.NewLine);
+                            //Loops through the vaccination log and writes the ones that are recurring to the terminal
+                            foreach(Vaccination vaccination in vaccinationLog.Vaccines)
+                                {   
+                                    DateOnly vaccinationDueDate;
+                                    vaccinationDueDate = vaccination.Date.AddMonths(Convert.ToInt32(vaccination.RecurranceTime));
+                                    if (vaccination.Recurrance){
+                                       Console.WriteLine(vaccination + " needs to be given again in " + vaccination.RecurranceTime + " months.");
+                                       Console.WriteLine(" That means it needs to be administered again around " + vaccinationDueDate + "."); 
+                                    }
+                                    
+                                }
+                            
+                            Console.WriteLine(Environment.NewLine);
+                        }
+
+
+                        if(VaccinationChoice == "Record A Vaccination")
+                        {
+                            Console.WriteLine("What vaccination do you want to add?");
+                            Vaccination vaccination;
+                            initialDate = DateOnly.MinValue;
+                            string initialReccuranceTime = "0"; 
+                            vaccination = new Vaccination("Untyped",initialDate,false,initialReccuranceTime);
+                            string vacType = AnsiConsole.Prompt(new TextPrompt<string>("What is the vaccination type?"));
+                            vaccination.Type = vacType;
+                            int vacYear = AnsiConsole.Prompt(new TextPrompt<int>("What year did the vaccination take place?"));
+                            int vacMonth = AnsiConsole.Prompt(new TextPrompt<int>("What month did the vaccination happen? Please enter the month number."));
+                            int vacDay = AnsiConsole.Prompt(new TextPrompt<int>("What day did the vaccination happen? Please enter the day number."));
+                            vaccination.Date = new DateOnly(vacYear,vacMonth,vacDay);
+                            bool recurranceState = AnsiConsole.Prompt(new TextPrompt<bool>("Is this a recurring vaccine? Please enter 'true' or 'false'."));
+                            vaccination.Recurrance = recurranceState;
+                            if (vaccination.Recurrance){
+                                vaccination.RecurranceTime = AnsiConsole.Prompt(new TextPrompt<string>("How long until this vaccination should happen again (in months)?"));
+                            }
+                            vaccinationLog.AddVaccination(vaccination);
+                            Console.WriteLine(vaccination.Type +" has been added to the vaccination log.");
+                        }
+
+                    }while(VaccinationChoice != "Return to Medical Menu");
                     }
-            } while (medModeChoice != "Exit to Main Menu");   
+                } while (medModeChoice != "Exit to Main Menu");   
             }
+
+
             if(choice == "Track Exercise")
             {
                 string exerciseChoice;
