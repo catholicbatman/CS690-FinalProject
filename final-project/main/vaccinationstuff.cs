@@ -17,7 +17,7 @@ public class Vaccination
 
     public override string ToString()
     {
-        return (this.Type + " Date Administered: " + this.Date);
+        return (this.Type + " vaccination given on " + this.Date);
     }
 }
 
