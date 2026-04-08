@@ -6,7 +6,6 @@ public class Analyzer{
     public Analyzer(){
     }
     
-
     public List<Walk> getWeeklyWalks(WalkRecord walkRecord){
 
         List<Walk> weeklyWalks = new List<Walk>();
