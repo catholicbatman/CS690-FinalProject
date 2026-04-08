@@ -80,5 +80,69 @@ public class LogCreator{
         return appointmentLog;
     }
 
+    public MedicationLog readMedicationInfoFromFile(){
+        //Creating a new medication log and reading the Medication_List file in to add medications to the list.
+        string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
+        MedicationLog medicationLog = new MedicationLog();
+        string[] medicationInfoSplit;
+        foreach(string medicationInfo in unsortedMedData)
+        {
+        Medication medication;
+        medication = new Medication("Tested",0);
+        medicationInfoSplit = medicationInfo.Split(',');
+        medication.Name = medicationInfoSplit[0];
+        medication.AdministrationTimes = Convert.ToInt32(medicationInfoSplit[1]);
+        medicationLog.Meds.Add(medication);
+        }
+        
+        return medicationLog;
+    }
+
+    public WalkRecord readWalkInfoFromFile(){
+        //Creating a new walkRecord and reading the walk_Record file in to add walks to the list.
+        string[] unsortedWalkData = File.ReadAllLines("Walk_Record.txt");
+        WalkRecord walkRecord = new WalkRecord();
+        string[] walkInfoSplit;
+        string[] dateParts;
+        string[] timeParts;
+        string[] walkTimeParts;
+        foreach(string walkInfo in unsortedWalkData)
+        {
+            Walk walk;
+            //Splits the data into date, time of day, and time walked from the Walk Record File
+            walkInfoSplit = walkInfo.Split(' ');
+
+            //gathers the day, month, and year for creating a DateTime type
+            int day, month, year;
+            dateParts = walkInfoSplit[0].Split('/');
+            month = Convert.ToInt32(dateParts[0]);
+            day = Convert.ToInt32(dateParts[1]);
+            year = Convert.ToInt32(dateParts[2]);
+
+            //gathers the hours, minutes, and seconds of the day for creating a DateTime type
+            int hours, minutes, seconds;
+            timeParts = walkInfoSplit[1].Split(':');
+            hours = Convert.ToInt32(timeParts[0]);
+            minutes = Convert.ToInt32(timeParts[1]);
+            seconds = Convert.ToInt32(timeParts[2]);
+
+            //Gets the duration of the walk from the file
+            int walkHours,walkMinutes,walkSeconds;
+            walkTimeParts = walkInfoSplit[2].Split(':');
+            walkHours = Convert.ToInt32(walkTimeParts[0]);
+            walkMinutes = Convert.ToInt32(walkTimeParts[1]);
+            walkSeconds = Convert.ToInt32(walkTimeParts[2]);
+
+            //combines all of the info from the file to create a walk with the date and time walked
+            //and then adds that walk to the walk record
+            var thisWalk = new DateTime(year,month,day,hours,minutes,seconds);
+            var thisWalkTime = new TimeSpan(walkHours,walkMinutes,walkSeconds); 
+            walk = new Walk(thisWalk,thisWalkTime);
+            walkRecord.Walks.Add(walk);
+        }
+        return walkRecord;
+        
+    }
+
 
 }
