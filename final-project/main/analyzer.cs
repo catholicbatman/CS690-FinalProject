@@ -2,13 +2,8 @@ namespace main;
 
 
 public class Analyzer{
-
-    
     
     public Analyzer(){
-
-
-
     }
     
 
