@@ -19,6 +19,7 @@ public class Walk
 
 public class WalkRecord
 {
+    FileSaver walkFileSaver = new FileSaver("Walk_Record.txt");
     public List<Walk> Walks { get; }
 
     public WalkRecord()
@@ -40,13 +41,11 @@ public class WalkRecord
 
     public void SynchronizeWalks()
     {
-        if(File.Exists("Walk_Record.txt")){
-            File.Delete("Walk_Record.txt");
-        }
+        walkFileSaver.DeleteFile();
 
         foreach (Walk walk in this.Walks)
         {
-            File.AppendAllText("Walk_Record.txt", walk.Date.ToString() +' '+ walk.WalkTime + ' '+ Environment.NewLine);
+            walkFileSaver.AppendLine(walk.Date.ToString() +' '+ walk.WalkTime);
         }
     }
 

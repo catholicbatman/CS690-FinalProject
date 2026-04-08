@@ -2,3 +2,4 @@ Rabies,01/01/2026,True,12
 Bordetella,01/12/2026,False,0
 distemper,04/04/2026,True,6
 Annual mix,03/10/2026,False,0
+flu,02/22/2026,True,24

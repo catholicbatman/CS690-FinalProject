@@ -23,6 +23,7 @@ public class Supply
 
 public class SupplyLog
 {
+    FileSaver supplyFileSaver = new FileSaver("Supply_List.txt");
     public List<Supply> Supplies { get; }
 
     public SupplyLog()
@@ -44,13 +45,11 @@ public class SupplyLog
 
     public void SynchronizeSupplies()
     {
-        if(File.Exists("Supply_List.txt")){
-            File.Delete("Supply_List.txt");
-        }
+        supplyFileSaver.DeleteFile();
 
         foreach (Supply supply in this.Supplies)
         {
-            File.AppendAllText("Supply_List.txt", supply.Name + ',' + supply.Amount + ',' + supply.Type +Environment.NewLine);
+            supplyFileSaver.AppendLine(supply.Name + ',' + supply.Amount + ',' + supply.Type);
         }
     }
 

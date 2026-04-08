@@ -11,7 +11,11 @@ public class ConsoleUI{
 
 
     public ConsoleUI(){
-
+        FileSaver medFileSaver = new FileSaver("Medication_List.txt");
+        FileSaver vacFileSaver = new FileSaver("Vaccination_Log.txt");
+        FileSaver appFileSaver = new FileSaver("Appointment_List.txt");
+        FileSaver walkFileSaver = new FileSaver("Walk_Record.txt");
+        FileSaver supplyFileSaver = new FileSaver("Supply_List.txt");
     }
 
     public void ShowUI(){
@@ -26,6 +30,7 @@ public class ConsoleUI{
     appointmentLog = logCreator.readAppointmentInfoFromFile();
     MedicationLog medicationLog = new MedicationLog();
     medicationLog = logCreator.readMedicationInfoFromFile();
+    medicationLog.SynchronizeMedications();
     WalkRecord walkRecord = new WalkRecord();
     walkRecord = logCreator.readWalkInfoFromFile();
 

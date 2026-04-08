@@ -23,6 +23,8 @@ public class Appointment
 
 public class AppointmentLog
 {
+    FileSaver appFileSaver = new FileSaver("Appointment_List.txt");
+
     public List<Appointment> Appointments { get; }
 
     public AppointmentLog()
@@ -44,13 +46,12 @@ public class AppointmentLog
 
     public void SynchronizeAppointments()
     {
-        if(File.Exists("Appointment_List.txt")){
-            File.Delete("Appointment_List.txt");
-        }
+        appFileSaver.DeleteFile();
 
         foreach (Appointment appointment in this.Appointments)
         {
-            File.AppendAllText("Appointment_List.txt", appointment.VisitReason+','+ appointment.Date + ',' + appointment.Time.Hour + ':' + appointment.Time.Minute + ',' + appointment.Status +Environment.NewLine);
+            appFileSaver.AppendLine(appointment.VisitReason+','+ appointment.Date + ',' + appointment.Time.Hour + ':' 
+            + appointment.Time.Minute + ',' + appointment.Status);
         }
     }
 
