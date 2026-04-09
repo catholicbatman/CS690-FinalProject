@@ -22,6 +22,8 @@ public class Medication
 
 public class MedicationLog
 {
+    FileSaver medFileSaver = new FileSaver("Medication_List.txt");
+
     public List<Medication> Meds { get; }
 
     public MedicationLog()
@@ -44,26 +46,11 @@ public class MedicationLog
 
     public void SynchronizeMedications()
     {
-        if(File.Exists("Medication_List.txt")){
-            File.Delete("Medication_List.txt");
-        }
+        medFileSaver.DeleteFile();
 
         foreach (Medication medication in this.Meds)
         {
-            File.AppendAllText("Medication_List.txt", medication.Name+','+ medication.AdministrationTimes +Environment.NewLine);
+            medFileSaver.AppendLine(medication.Name+','+ medication.AdministrationTimes);
         }
     }
-    /*public override string ToString()
-    {
-        return this.Meds;
-    }*/
-
 }
-
-
-
-
-/*public class MedData
-{
-    public string name
-}*/

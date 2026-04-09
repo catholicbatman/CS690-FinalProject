@@ -1,5 +1,7 @@
 namespace main;
 
+using System.IO;
+
 public class Vaccination
 {
     public string Type { get; set; }
@@ -23,6 +25,8 @@ public class Vaccination
 
 public class VaccinationLog
 {
+    FileSaver vacFileSaver = new FileSaver("Vaccination_Log.txt");
+
     public List<Vaccination> Vaccines { get; }
 
     public VaccinationLog()
@@ -38,15 +42,14 @@ public class VaccinationLog
 
     public void SynchronizeVaccinations()
     {
-        if(File.Exists("Vaccination_Log.txt")){
-            File.Delete("Vaccination_Log.txt");
-        }
+        vacFileSaver.DeleteFile();
 
         foreach (Vaccination vaccination in this.Vaccines)
         {
-            File.AppendAllText("Vaccination_Log.txt", vaccination.Type + ',' + vaccination.Date + ',' 
-            + vaccination.Recurrance + ',' + vaccination.RecurranceTime + Environment.NewLine);
+            vacFileSaver.AppendLine(vaccination.Type + ',' + vaccination.Date + ',' 
+            + vaccination.Recurrance + ',' + vaccination.RecurranceTime);
         }
+
     }
 
 }
