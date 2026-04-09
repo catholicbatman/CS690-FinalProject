@@ -7,7 +7,7 @@ public class AnalyzerTests
 
     Analyzer analyzer;
     WalkRecord allWalkRecord;
-    List<Walk>? thisWeeksWalks;
+    List<Walk> thisWeeksWalks;
     Walk walk1,walk2,walk3,walk4,walk5,walk6,walk7,walk8,walk9,walk10;
     TimeSpan fakeTimeSpan;
     int dateTodayInteger;
@@ -54,8 +54,15 @@ public class AnalyzerTests
     [Fact]
     public void Test1()
     {
-        Assert.Equal(dateTodayInteger+2,thisWeeksWalks.Count+1); 
+        Assert.Equal(dateTodayInteger+2,thisWeeksWalks.Count+1);
     }
+
+    [Fact]
+    public void Test2()
+    {
+        Assert.Contains(walk1,thisWeeksWalks);
+    }
+
 }
 
 /*if (DateTime.Now.Day == 0){
