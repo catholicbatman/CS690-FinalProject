@@ -4,11 +4,17 @@ namespace main;
 public class LogCreator{
     
     public LogCreator(){
-    }
+    } 
 
-    public VaccinationLog readVaccinationsFromFile(){
+    FileSaver medFileSaver = new FileSaver("Medication_List.txt");
+    FileSaver vacFileSaver = new FileSaver("Vaccination_Log.txt");
+    FileSaver appFileSaver = new FileSaver("Appointment_List.txt");
+    FileSaver walkFileSaver = new FileSaver("Walk_Record.txt");
+    FileSaver supplyFileSaver = new FileSaver("Supply_List.txt");
+
+    public VaccinationLog readVaccinationsFromFile(string fileName){
         //Creating a new vaccine log and reading the Vaccine_Log file in to add vaccines to the list.
-        string[] unsortedVaccinationData = File.ReadAllLines("Vaccination_Log.txt");
+        string[] unsortedVaccinationData = File.ReadAllLines(fileName);
         VaccinationLog vaccinationLog = new VaccinationLog();
         string[] vaccinationInfoSplit;
         DateOnly initialDate;
@@ -30,9 +36,9 @@ public class LogCreator{
         return vaccinationLog;
     }
 
-    public SupplyLog readSupplyInfoFromFile(){
+    public SupplyLog readSupplyInfoFromFile(string fileName){
         //Creating a new supply log and reading the Supply_List file in to add supplies to the list.
-        string[] unsortedSupplyData = File.ReadAllLines("Supply_List.txt");
+        string[] unsortedSupplyData = File.ReadAllLines(fileName);
         SupplyLog supplyLog = new SupplyLog();
         string[] supplyInfoSplit;
         foreach(string supplyInfo in unsortedSupplyData)
@@ -48,9 +54,9 @@ public class LogCreator{
         return supplyLog;
     }
 
-    public AppointmentLog readAppointmentInfoFromFile(){
+    public AppointmentLog readAppointmentInfoFromFile(string fileName){
         //Creating a new appointment log and reading the Appointment_List file in to add appointments to the list.
-        string[] unsortedAppointmentData = File.ReadAllLines("Appointment_List.txt");
+        string[] unsortedAppointmentData = File.ReadAllLines(fileName);
         AppointmentLog appointmentLog = new AppointmentLog();
         string[] appointmentInfoSplit;
         string[] dateInfo;
@@ -80,9 +86,9 @@ public class LogCreator{
         return appointmentLog;
     }
 
-    public MedicationLog readMedicationInfoFromFile(){
+    public MedicationLog readMedicationInfoFromFile(string fileName){
         //Creating a new medication log and reading the Medication_List file in to add medications to the list.
-        string[] unsortedMedData = File.ReadAllLines("Medication_List.txt");
+        string[] unsortedMedData = File.ReadAllLines(fileName);
         MedicationLog medicationLog = new MedicationLog();
         string[] medicationInfoSplit;
         foreach(string medicationInfo in unsortedMedData)
@@ -98,9 +104,9 @@ public class LogCreator{
         return medicationLog;
     }
 
-    public WalkRecord readWalkInfoFromFile(){
+    public WalkRecord readWalkInfoFromFile(string fileName){
         //Creating a new walkRecord and reading the walk_Record file in to add walks to the list.
-        string[] unsortedWalkData = File.ReadAllLines("Walk_Record.txt");
+        string[] unsortedWalkData = File.ReadAllLines(fileName);
         WalkRecord walkRecord = new WalkRecord();
         string[] walkInfoSplit;
         string[] dateParts;

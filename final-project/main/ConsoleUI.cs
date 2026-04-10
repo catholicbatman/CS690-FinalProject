@@ -23,16 +23,16 @@ public class ConsoleUI{
     Analyzer analyzer = new Analyzer();
     LogCreator logCreator = new LogCreator();
     VaccinationLog vaccinationLog = new VaccinationLog();
-    vaccinationLog = logCreator.readVaccinationsFromFile();
+    vaccinationLog = logCreator.readVaccinationsFromFile("Vaccination_Log.txt");
     SupplyLog supplyLog = new SupplyLog();
-    supplyLog = logCreator.readSupplyInfoFromFile();
+    supplyLog = logCreator.readSupplyInfoFromFile("Supply_List.txt");
     AppointmentLog appointmentLog = new AppointmentLog();
-    appointmentLog = logCreator.readAppointmentInfoFromFile();
+    appointmentLog = logCreator.readAppointmentInfoFromFile("Appointment_List.txt");
     MedicationLog medicationLog = new MedicationLog();
-    medicationLog = logCreator.readMedicationInfoFromFile();
+    medicationLog = logCreator.readMedicationInfoFromFile("Medication_List.txt");
     medicationLog.SynchronizeMedications();
     WalkRecord walkRecord = new WalkRecord();
-    walkRecord = logCreator.readWalkInfoFromFile();
+    walkRecord = logCreator.readWalkInfoFromFile("Walk_Record.txt");
 
         //The following is the UI menu, offering choices and then subsequent choices to the user in a loop.
         string choice;
